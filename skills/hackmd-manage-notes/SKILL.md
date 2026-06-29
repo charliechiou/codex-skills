@@ -41,6 +41,24 @@ Markdown as the source of truth and preserve unrelated content.
    matching style.
 5. Follow the safe editing and verification procedures below.
 
+## Write for the intended reader
+
+- Treat the user's stated audience and technical background as a hard
+  requirement. If they do not specify an audience for technical documentation,
+  default to a beginner who is new to the domain.
+- Explain each important code block and the role of its significant declarations,
+  fields, control flow, constants, and function calls. Connect each code fragment
+  to the larger execution or data flow.
+- Define domain terms before relying on them, explain why the implementation is
+  needed, and distinguish current behavior from limitations or future work.
+- Focus beginner-oriented explanations on the document's actual technical
+  domain. Do not reteach basic programming-language syntax unless the user asks
+  for it or the syntax is essential to understanding the design.
+- Include concrete input/output or command examples and a safe way to verify the
+  result. Do not merely list changed files or paste code without explaining it.
+- Match the existing note's style without copying its assumed knowledge level
+  when the requested reader needs more foundational explanation.
+
 ## Update a note safely
 
 Before changing content:
