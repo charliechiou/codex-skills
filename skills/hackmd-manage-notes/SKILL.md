@@ -60,6 +60,9 @@ then use Edge only for the remaining UI setting and final preview. Read
 
 ## Locate the target
 
+- For this user's note-update tasks, only operate on notes inside the `Codex`
+  folder. If the resolved note is outside `Codex`, stop and ask the user before
+  making any change.
 - Use CLI folder and note listings first when authenticated. In Edge, navigate
   through the workspace and requested folder rather than relying on a title-only
   global search when duplicate note names are possible.
@@ -113,6 +116,9 @@ Before changing content:
 Choose the narrowest edit:
 
 - Append a new change-log section at the document end when documenting new work.
+- For this user's documentation sync or progress updates, default to appending a
+  dated change-log entry instead of rewriting the main body unless the user
+  explicitly asks for a section rewrite.
 - Replace only the requested section when revising existing documentation.
 - Do not rewrite the entire note merely to add a section.
 
