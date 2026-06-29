@@ -34,16 +34,21 @@ then use Edge only for the remaining UI setting and final preview. Read
 
 1. Check `hackmd-cli --version`. If unavailable, ask before globally installing
    it with `npm install -g @hackmd/hackmd-cli`.
-2. Check authentication with `hackmd-cli whoami`. If authentication is missing,
-   ask the user to create a token at `https://hackmd.io/settings#api` and run
-   `hackmd-cli login` themselves. Never request, display, or commit the token.
-3. Resolve the destination through note and folder listings rather than assuming
+2. Prefer non-interactive authentication. Set `HMD_API_ACCESS_TOKEN` and, when
+   file-backed config is required, point `HMD_CLI_CONFIG_DIR` to a writable
+   directory instead of assuming `~/.hackmd` is writable.
+3. Check authentication with `hackmd-cli whoami`. If authentication is missing,
+   ask the user to create a token at `https://hackmd.io/settings#api` and
+   provide it through their own environment. Do not rely on interactive
+   `hackmd-cli login` when the shell or home directory is constrained. Never
+   request, display, or commit the token.
+4. Resolve the destination through note and folder listings rather than assuming
    an ID. Prefer `--output=json`, narrow `--columns`, and filters to reduce output.
-4. Read the current server content before updating. Preserve it until
+5. Read the current server content before updating. Preserve it until
    verification succeeds.
-5. Use a local temporary Markdown file or stdin for long content; do not place
+6. Use a local temporary Markdown file or stdin for long content; do not place
    secrets in command arguments or repository files.
-6. Retrieve or export the note after every mutation and verify title, length,
+7. Retrieve or export the note after every mutation and verify title, length,
    unique markers, links, code fences, and preservation of unrelated content.
 
 ## Required browser workflow
@@ -119,6 +124,9 @@ Choose the narrowest edit:
 - For this user's documentation sync or progress updates, default to appending a
   dated change-log entry instead of rewriting the main body unless the user
   explicitly asks for a section rewrite.
+- Change-log entries should describe technical behavior, interfaces, data flow,
+  constraints, or design intent. Do not use them to record routine README
+  syncing, pushes, tool installation, or the agent's work log.
 - Replace only the requested section when revising existing documentation.
 - Do not rewrite the entire note merely to add a section.
 

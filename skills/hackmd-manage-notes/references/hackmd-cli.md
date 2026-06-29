@@ -9,13 +9,39 @@ Copyright 2022 HackMD.
 
 ```bash
 npm install -g @hackmd/hackmd-cli
-hackmd-cli login
+export HMD_CLI_CONFIG_DIR=/tmp/hackmd-cli-config
+export HMD_API_ACCESS_TOKEN=YOUR_TOKEN
 hackmd-cli whoami
 ```
 
-The user must create and enter their own API token. Alternatively, the CLI reads
-`HMD_API_ACCESS_TOKEN`. Never expose or commit either the token or
-`~/.hackmd/config.json`.
+Prefer `HMD_API_ACCESS_TOKEN` over interactive `hackmd-cli login`. In constrained
+shells, `login` may fail because it depends on an interactive prompt, and some
+environments do not allow writing `~/.hackmd/config.json`. When a config
+directory is needed, set `HMD_CLI_CONFIG_DIR` to a writable path such as
+`/tmp/hackmd-cli-config`.
+
+The user must create and manage their own API token. Never expose or commit the
+token, shell history containing the token, or any generated config file.
+
+## Known environment issues
+
+- Interactive `hackmd-cli login` can fail in shells where `read -s` is not
+  supported.
+- `hackmd-cli whoami` and other commands can fail if they try to create
+  `~/.hackmd` under a read-only home directory.
+- `HMD_API_ACCESS_TOKEN` plus a writable `HMD_CLI_CONFIG_DIR` avoids both
+  failure modes and should be the default workflow.
+
+## Authentication check
+
+Use a writable config directory even when authenticating entirely by
+environment variable:
+
+```bash
+export HMD_CLI_CONFIG_DIR=/tmp/hackmd-cli-config
+export HMD_API_ACCESS_TOKEN=YOUR_TOKEN
+hackmd-cli whoami
+```
 
 ## Personal notes
 
