@@ -1,4 +1,4 @@
 interface:
   display_name: "HackMD Note Manager"
-  short_description: "Create and safely update HackMD notes in Edge"
-  default_prompt: "Use $hackmd-manage-notes to create or update a HackMD note while preserving its existing style."
+  short_description: "Manage HackMD safely with CLI and Edge"
+  default_prompt: "Use $hackmd-manage-notes to manage HackMD efficiently with the CLI and use Edge only when required."
