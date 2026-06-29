@@ -1,55 +1,12 @@
 ---
 name: hackmd-manage-notes
-description: Manage HackMD notes and folders with the official HackMD CLI first and Microsoft Edge when browser-only features are required. Use when Codex needs to list, read, create, update, move, organize, export, or set permissions on personal or team notes; preserve Markdown and writing style; create or verify Book Mode; manage custom share links; resolve editor conflicts; or verify server persistence.
+description: Manage HackMD notes and folders with Microsoft Edge through Playwright. Use when Codex needs to read, create, update, move, organize, or verify notes in HackMD while preserving Markdown and writing style; create or verify Book Mode; manage custom share links; resolve editor conflicts; or verify server persistence.
 ---
 
 # HackMD Note Manager
 
-Use the official `@hackmd/hackmd-cli` for efficient Markdown and workspace
-operations. Use Microsoft Edge only for browser-only controls or visual
-verification. Treat the server-saved Markdown as the source of truth and preserve
-unrelated content.
-
-## Choose the operation path
-
-Prefer the CLI for:
-
-- listing, reading, creating, updating, moving, and exporting notes;
-- personal and team folder operations;
-- structured JSON output and exact post-write verification;
-- read, write, and comment permissions supported by the API.
-
-Use Edge for:
-
-- Book Mode, Slide Mode, custom share-link controls, and preview;
-- UI-only settings or behavior absent from the CLI;
-- offline-edit and merge-conflict dialogs;
-- visual layout checks.
-
-Use a hybrid flow when a task needs both. Create or update Markdown with the CLI,
-then use Edge only for the remaining UI setting and final preview. Read
-[`references/hackmd-cli.md`](references/hackmd-cli.md) before using CLI commands.
-
-## Required CLI workflow
-
-1. Check `hackmd-cli --version`. If unavailable, ask before globally installing
-   it with `npm install -g @hackmd/hackmd-cli`.
-2. Prefer non-interactive authentication. Set `HMD_API_ACCESS_TOKEN` and, when
-   file-backed config is required, point `HMD_CLI_CONFIG_DIR` to a writable
-   directory instead of assuming `~/.hackmd` is writable.
-3. Check authentication with `hackmd-cli whoami`. If authentication is missing,
-   ask the user to create a token at `https://hackmd.io/settings#api` and
-   provide it through their own environment. Do not rely on interactive
-   `hackmd-cli login` when the shell or home directory is constrained. Never
-   request, display, or commit the token.
-4. Resolve the destination through note and folder listings rather than assuming
-   an ID. Prefer `--output=json`, narrow `--columns`, and filters to reduce output.
-5. Read the current server content before updating. Preserve it until
-   verification succeeds.
-6. Use a local temporary Markdown file or stdin for long content; do not place
-   secrets in command arguments or repository files.
-7. Retrieve or export the note after every mutation and verify title, length,
-   unique markers, links, code fences, and preservation of unrelated content.
+Use Microsoft Edge through Playwright for all HackMD operations. Treat the
+server-saved Markdown as the source of truth and preserve unrelated content.
 
 ## Required browser workflow
 
@@ -60,17 +17,18 @@ then use Edge only for the remaining UI setting and final preview. Read
    required. If HackMD is logged out, leave the browser at the login page and ask
    the user to sign in manually. Never request, read, or enter their password.
 4. Take a fresh snapshot before using element references and after navigation,
-   dialogs, folder changes, or editor mode changes.
-5. Keep the Edge window open unless the user asks to close it.
+   dialogs, folder changes, editor mode changes, or reloads.
+5. Use browser navigation, workspace search, and folder views to locate notes.
+   Do not use `hackmd-cli`.
+6. Keep the Edge window open unless the user asks to close it.
 
 ## Locate the target
 
 - For this user's note-update tasks, only operate on notes inside the `Codex`
   folder. If the resolved note is outside `Codex`, stop and ask the user before
   making any change.
-- Use CLI folder and note listings first when authenticated. In Edge, navigate
-  through the workspace and requested folder rather than relying on a title-only
-  global search when duplicate note names are possible.
+- In Edge, navigate through the workspace and requested folder rather than
+  relying on a title-only global search when duplicate note names are possible.
 - Confirm both the folder and exact note title before editing.
 - For an existing note, inspect the relevant surrounding sections and the full
   document outline. Match its language, heading depth, prose density, code-block
@@ -80,11 +38,10 @@ then use Edge only for the remaining UI setting and final preview. Read
 
 ## Create a note
 
-1. Resolve the destination folder ID and create the note there with the CLI when
-   possible. Otherwise open the destination folder in Edge before creating it.
+1. Open the destination folder in Edge before creating the note.
 2. Set the exact requested title and permissions.
 3. Confirm the note is listed in the intended folder. If it is elsewhere, move
-   it with the CLI or normal workspace controls.
+   it with normal workspace controls in Edge.
 4. Write Markdown that follows any nearby project notes when the user requests a
    matching style.
 5. Follow the safe editing and verification procedures below.
@@ -111,8 +68,7 @@ then use Edge only for the remaining UI setting and final preview. Read
 
 Before changing content:
 
-1. Read the current Markdown with the CLI, or from CodeMirror for browser-only
-   work.
+1. Read the current Markdown from CodeMirror.
 2. Record its length and identify a unique insertion or replacement marker.
 3. Confirm the marker count is exactly one. Do not replace content using a
    non-unique heading or phrase.
@@ -130,13 +86,12 @@ Choose the narrowest edit:
 - Replace only the requested section when revising existing documentation.
 - Do not rewrite the entire note merely to add a section.
 
-For long or multiline Markdown, prefer CLI stdin or a temporary file. When Edge
-is required, do not use `playwright-cli type`; per-character typing can trigger
-CodeMirror indentation and auto-completion and corrupt the document. Focus the
-hidden CodeMirror textarea with `eval`, then update the CodeMirror document
-atomically. Derive the new value from the current value and the verified unique
-boundary. Use `setValue` only when creating an empty note or when the complete
-preserved source is included; otherwise prefer a bounded `replaceRange`.
+Do not use `playwright-cli type`; per-character typing can trigger CodeMirror
+indentation and auto-completion and corrupt the document. Focus the hidden
+CodeMirror textarea with `eval`, then update the CodeMirror document atomically.
+Derive the new value from the current value and the verified unique boundary.
+Use `setValue` only when creating an empty note or when the complete preserved
+source is included; otherwise prefer a bounded `replaceRange`.
 
 After the edit, verify in the editor before waiting for sync:
 
@@ -166,12 +121,11 @@ Never select a conflict-resolution action merely to dismiss the dialog.
 
 ## Verify server persistence
 
-1. Retrieve or export the note with the CLI after CLI mutations.
-2. For browser mutations, wait for HackMD's save state to settle and reload the
-   page so the editor reads the server version again.
-3. Re-read the server Markdown and repeat the structural checks.
-4. For browser work, confirm there is no offline-edit or conflict banner.
-5. Report completion only after the post-reload source contains the intended
+1. Wait for HackMD's save state to settle and reload the page so the editor
+   reads the server version again.
+2. Re-read the server Markdown from the page and repeat the structural checks.
+3. Confirm there is no offline-edit or conflict banner.
+4. Report completion only after the post-reload source contains the intended
    content exactly once.
 
 ## Safety boundaries
@@ -182,8 +136,3 @@ Never select a conflict-resolution action merely to dismiss the dialog.
 - Do not expose note contents, authentication state, or private URLs beyond what
   is necessary for the task.
 - Do not resolve ambiguous concurrent edits without user confirmation.
-
-## Upstream
-
-The CLI command guidance is adapted from HackMD's MIT-licensed
-[`hackmdio/hackmd-cli`](https://github.com/hackmdio/hackmd-cli) Agent Skill.

@@ -1,4 +1,4 @@
 interface:
   display_name: "HackMD Note Manager"
-  short_description: "Manage HackMD safely with CLI and Edge"
-  default_prompt: "Use $hackmd-manage-notes to manage HackMD efficiently with the CLI and use Edge only when required."
+  short_description: "Manage HackMD safely with Playwright and Edge"
+  default_prompt: "Use $hackmd-manage-notes to manage HackMD through Playwright with headed Microsoft Edge."
