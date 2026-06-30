@@ -54,6 +54,11 @@ server-saved Markdown as the source of truth and preserve unrelated content.
 - Explain each important code block and the role of its significant declarations,
   fields, control flow, constants, and function calls. Connect each code fragment
   to the larger execution or data flow.
+- When discussing concrete implementation details, prefer fenced code blocks
+  such as ` ```c `, ` ```bash `, and ` ```make ` instead of relying only on
+  inline code spans. Use inline code for short identifiers, but use fenced
+  blocks when the reader needs to parse real control flow, data structures, or
+  command sequences.
 - Define domain terms before relying on them, explain why the implementation is
   needed, and distinguish current behavior from limitations or future work.
 - Focus beginner-oriented explanations on the document's actual technical
