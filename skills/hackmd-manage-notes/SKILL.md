@@ -21,6 +21,16 @@ server-saved Markdown as the source of truth and preserve unrelated content.
 5. Use browser navigation, workspace search, and folder views to locate notes.
    Do not use `hackmd-cli`.
 6. Keep the Edge window open unless the user asks to close it.
+7. Do not assume a persistent Playwright CLI browser session can always be
+   reused reliably across separate CLI invocations in every environment. If
+   session reuse is flaky, prefer a single shell flow that performs `open`,
+   inspection, bounded edit, reload, and post-reload verification in one
+   command sequence.
+8. If Playwright reports that the browser is not open while a persistent
+   profile also appears locked or already in use, treat it as stale session
+   state. Clear the stale browser/session state first, then restart the full
+   note-edit flow against the target note URL instead of blindly reusing the
+   previous session name.
 
 ## Locate the target
 
@@ -132,6 +142,9 @@ Never select a conflict-resolution action merely to dismiss the dialog.
 3. Confirm there is no offline-edit or conflict banner.
 4. Report completion only after the post-reload source contains the intended
    content exactly once.
+5. If the reload or verification step is interrupted by Playwright session
+   loss, rerun the entire verification flow against the saved note URL and use
+   the reloaded CodeMirror content as the source of truth.
 
 ## Safety boundaries
 
