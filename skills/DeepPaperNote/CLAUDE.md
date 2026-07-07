@@ -12,7 +12,7 @@ There is no separate Claude Code wrapper — `SKILL.md` is loaded directly when 
 
 End users running Claude Code invoke the skill with natural language or the
 `/deeppapernote` slash command. Recognized trigger examples:
-- `给这篇论文生成深度笔记`
-- `写一篇高质量论文精读笔记`
-- `把这篇文章整理成 obsidian 笔记`
+- `給這篇論文產生深度筆記`
+- `寫一篇高品質論文精讀筆記`
+- `把這篇文章整理成 obsidian 筆記`
 - `/deeppapernote <paper title, DOI, arXiv ID, or local PDF path>`

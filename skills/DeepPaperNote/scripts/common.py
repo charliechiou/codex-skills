@@ -982,7 +982,7 @@ DOMAIN_SECTION_ALIASES = {"application_domains": "domains"}
 DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
     "domains": [
         {
-            "label": "医疗健康",
+            "label": "醫療健康",
             "aliases": ["healthcare", "medical", "clinical medicine"],
             "specialized_folders": ["心理健康"],
             "keywords": [
@@ -1054,7 +1054,7 @@ DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
             "methods": [],
         },
         {
-            "label": "机器人",
+            "label": "機器人",
             "aliases": ["robotics", "robotic"],
             "keywords": [
                 "robot",
@@ -1070,7 +1070,7 @@ DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
             "methods": ["diffusion policy"],
         },
         {
-            "label": "软件工程",
+            "label": "軟體工程",
             "aliases": ["software engineering"],
             "keywords": [
                 "software engineering",
@@ -1086,7 +1086,7 @@ DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
             "methods": [],
         },
         {
-            "label": "生物医学",
+            "label": "生物醫學",
             "aliases": ["biomedical", "bioinformatics"],
             "keywords": [
                 "biomedical",
@@ -1102,7 +1102,7 @@ DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
         },
         {
             "label": "心理健康",
-            "route_to": "医疗健康",
+            "route_to": "醫療健康",
             "aliases": ["mental health", "psychology", "psychiatry"],
             "keywords": [
                 "depression",
@@ -1117,7 +1117,7 @@ DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
             "methods": [],
         },
         {
-            "label": "推荐系统",
+            "label": "推薦系統",
             "aliases": ["recommender systems", "recommendation"],
             "keywords": [
                 "recommendation",
@@ -1162,7 +1162,7 @@ DEFAULT_DOMAIN_RULES: dict[str, list[dict[str, Any]]] = {
             "methods": [],
         },
         {
-            "label": "机器学习",
+            "label": "機器學習",
             "aliases": ["machine learning", "ml"],
             "keywords": [
                 "machine learning",
@@ -1455,10 +1455,10 @@ def infer_domain_label(title: str, abstract: str = "") -> str:
 
     paper_type, _ = infer_paper_type(title, abstract)
     if paper_type == "clinical_or_psychology_empirical":
-        return "医疗健康"
+        return "醫療健康"
     if paper_type == "AI_method":
-        return "机器学习"
-    return "未分类"
+        return "機器學習"
+    return "未分類"
 
 
 def is_probable_paper_folder(path: Path) -> bool:
@@ -1619,10 +1619,10 @@ SECTION_ALIASES = {
         "related work",
         "literature review",
         "引言",
-        "绪论",
+        "緒論",
         "背景",
-        "相关工作",
-        "文献综述",
+        "相關工作",
+        "文獻綜述",
     },
     "method": {
         "method",
@@ -1637,14 +1637,14 @@ SECTION_ALIASES = {
         "materials and methods",
         "study design",
         "方法",
-        "方法学",
+        "方法學",
         "研究方法",
-        "材料与方法",
-        "实验方法",
-        "研究设计",
+        "材料與方法",
+        "實驗方法",
+        "研究設計",
         "模型",
         "框架",
-        "系统设计",
+        "系統設計",
     },
     "data": {
         "data",
@@ -1652,9 +1652,9 @@ SECTION_ALIASES = {
         "datasets",
         "corpus",
         "data and materials",
-        "数据",
-        "数据集",
-        "语料库",
+        "資料",
+        "資料集",
+        "語料庫",
     },
     "experiment": {
         "experiment",
@@ -1668,14 +1668,14 @@ SECTION_ALIASES = {
         "findings",
         "ablations",
         "ablation",
-        "实验",
-        "实验结果",
-        "结果",
-        "研究结果",
-        "评价",
-        "评估",
+        "實驗",
+        "實驗結果",
+        "結果",
+        "研究結果",
+        "評價",
+        "評估",
         "分析",
-        "发现",
+        "發現",
         "消融",
     },
     "conclusion": {
@@ -1686,12 +1686,12 @@ SECTION_ALIASES = {
         "future work",
         "limitations",
         "limitation",
-        "结论",
-        "总结",
-        "讨论",
-        "局限",
+        "結論",
+        "總結",
+        "討論",
+        "侷限",
         "不足",
-        "未来工作",
+        "未來工作",
     },
 }
 
@@ -1703,24 +1703,24 @@ STOP_SECTION_ALIASES = {
     "supplementary material",
     "acknowledgments",
     "acknowledgements",
-    "参考文献",
-    "附录",
-    "补充材料",
-    "致谢",
+    "參考文獻",
+    "附錄",
+    "補充材料",
+    "致謝",
 }
 
 STOP_SECTION_REASONS = {
     "references": "references",
     "bibliography": "references",
-    "参考文献": "references",
+    "參考文獻": "references",
     "appendix": "appendix",
     "appendices": "appendix",
     "supplementary material": "appendix",
-    "附录": "appendix",
-    "补充材料": "appendix",
+    "附錄": "appendix",
+    "補充材料": "appendix",
     "acknowledgments": "acknowledgments",
     "acknowledgements": "acknowledgments",
-    "致谢": "acknowledgments",
+    "致謝": "acknowledgments",
 }
 
 
@@ -2041,7 +2041,7 @@ def choose_local_pdf_corrected_title(base: dict[str, Any], candidates: list[dict
 
 def normalize_caption_label(label: str) -> str:
     label = normalize_whitespace(label)
-    chinese_match = re.match(r"^(图|表)\s*([A-Z]?\d+[a-z]?)$", label, re.IGNORECASE)
+    chinese_match = re.match(r"^(圖|表)\s*([A-Z]?\d+[a-z]?)$", label, re.IGNORECASE)
     if chinese_match:
         return f"{chinese_match.group(1)} {chinese_match.group(2)}"
     extended_figure_match = re.match(
@@ -2136,7 +2136,7 @@ def extract_caption_lines(pdf_text: str, kind: str) -> list[dict[str, str]]:
             r"|scheme\.?\s*\d+[a-z]?"
             r"|algorithm\.?\s*\d+[a-z]?"
             r"|fig(?:ure)?\.?\s*[AS]?\d+[a-z]?"
-            r"|图\.?\s*[A-Z]?\d+[a-z]?"
+            r"|圖\.?\s*[A-Z]?\d+[a-z]?"
             r"))(?!\.\d)(?:[:：.。,\s、|—–-]+|$)(.*)$",
             re.IGNORECASE,
         )

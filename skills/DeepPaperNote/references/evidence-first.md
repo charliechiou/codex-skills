@@ -58,11 +58,11 @@ The plan should state:
 - whether key formulas or complexity expressions need to appear in the final note
 
 Good note plans often add paper-specific sections such as:
-- `### 数据构建`
-- `### 量表代理特征抽取`
-- `### 训练细节`
-- `### 关键洞察`
-- `### 为什么结果不等于临床可用`
+- `### 資料建構`
+- `### 量表代理特徵抽取`
+- `### 訓練細節`
+- `### 關鍵洞察`
+- `### 為什麼結果不等於臨床可用`
 
 Recommended shape:
 
@@ -71,8 +71,8 @@ Recommended shape:
   "paper_type": "AI_method",
   "paper_type_rationale": "The paper proposes a model mechanism and evaluates it against baselines; the script suggestion was treated only as a hint.",
   "dominant_domain": "machine learning",
-  "must_cover": ["数据构建", "方法主线", "关键消融"],
-  "key_numbers": ["主结果提升 3.2 points", "训练成本降低 40%"],
+  "must_cover": ["資料建構", "方法主線", "關鍵消融"],
+  "key_numbers": ["主結果提升 3.2 points", "訓練成本降低 40%"],
   "real_comparisons": ["against the strongest reported baseline"],
   "central_claims": [
     {
@@ -90,9 +90,9 @@ Recommended shape:
   "followup_questions": ["Does the same state logging still help when external tools are slow, missing, or adversarially noisy?"],
   "section_plan": [
     {
-      "section": "方法主线",
+      "section": "方法主線",
       "weight": "high",
-      "subsections": ["机制流程", "训练目标"],
+      "subsections": ["機制流程", "訓練目標"],
       "evidence_sources": [{"section_id": "sec:method"}, {"pages": [4, 6]}]
     }
   ]
@@ -112,8 +112,8 @@ Good final notes should:
 - add paper-specific subsections when the evidence supports them
 - avoid abstract-only rewriting
 - explain why a figure or table matters, not just attach it
-- separate “作者声称了什么” from “论文真正证明了什么”
-- carry the plan's claim boundaries into `深度分析` and `局限`
+- separate “作者聲稱了什麼” from “論文真正證明了什麼”
+- carry the plan's claim boundaries into `深度分析` and `侷限`
 - explain the mechanism deeply enough that an engineer could re-explain or re-implement the main flow
 
 ## Minimum Quality Bar

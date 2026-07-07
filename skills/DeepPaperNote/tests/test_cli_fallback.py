@@ -37,8 +37,8 @@ def test_write_note_falls_back_to_workspace(tmp_path: Path) -> None:
     note_path = Path(payload["note_path"])
     images_dir = Path(payload["images_dir"])
     assert payload["output_mode"] == "workspace"
-    assert payload["subdir"] == "机器学习"
-    assert note_path == tmp_path / "DeepPaperNote_output" / "机器学习" / "Fallback_Output_Test" / "Fallback_Output_Test.md"
+    assert payload["subdir"] == "機器學習"
+    assert note_path == tmp_path / "DeepPaperNote_output" / "機器學習" / "Fallback_Output_Test" / "Fallback_Output_Test.md"
     assert note_path.exists()
     assert images_dir == note_path.parent / "images"
     assert images_dir.exists() and images_dir.is_dir()

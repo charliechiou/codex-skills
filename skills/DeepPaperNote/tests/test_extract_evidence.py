@@ -577,7 +577,7 @@ def test_bundle_exposes_manifest_coverage_without_old_model_inputs() -> None:
                 },
                 "section_texts": {
                     "method": "方法" * 6500,
-                    "experiment": "实验结果",
+                    "experiment": "實驗結果",
                 },
                 "appendix_index": {
                     "appendix_detected": True,
@@ -835,14 +835,14 @@ def test_bundle_removes_top_n_evidence_and_uses_compact_contract() -> None:
     assert contract["grounding_contract"]["source_of_truth"] == "source_manifest"
     assert "section_id" in contract["grounding_contract"]["accepted_reference_forms"]
     assert "pages" in contract["grounding_contract"]["accepted_reference_forms"]
-    assert any("工程含义" in rule for rule in formula_rules)
-    assert method_contract["section_semantics"]["方法主线"] == "模型、算法、训练或推理机制。"
-    assert method_contract["recommended_subsections"]["方法主线"] == [
-        "机制流程",
-        "模型结构",
-        "训练目标",
-        "推理与采样链路",
-        "关键实现细节",
+    assert any("工程含義" in rule for rule in formula_rules)
+    assert method_contract["section_semantics"]["方法主線"] == "模型、演算法、訓練或推理機制。"
+    assert method_contract["recommended_subsections"]["方法主線"] == [
+        "機制流程",
+        "模型結構",
+        "訓練目標",
+        "推理與取樣鏈路",
+        "關鍵實現細節",
     ]
     assert mechanism_flow_contract["required_step_count"] == "3_to_4"
 
@@ -850,11 +850,11 @@ def test_bundle_removes_top_n_evidence_and_uses_compact_contract() -> None:
 @pytest.mark.parametrize(
     ("paper_type", "expected_token"),
     [
-        ("AI_method", "方法机制"),
+        ("AI_method", "方法機制"),
         ("benchmark_or_dataset", "benchmark"),
-        ("clinical_or_psychology_empirical", "临床"),
-        ("humanities_or_social_science", "理论"),
-        ("survey_or_review", "综述"),
+        ("clinical_or_psychology_empirical", "臨床"),
+        ("humanities_or_social_science", "理論"),
+        ("survey_or_review", "綜述"),
     ],
 )
 def test_bundle_exposes_all_paper_type_contracts_for_model_selection(

@@ -184,7 +184,7 @@ For a normal single-paper note request, the pipeline below is a required executi
 
 13. `lint_note`
    Check structure, heading levels, missing sections, weak analysis, and mixed-language prose.
-   If the refined note still contains half-English half-Chinese lines, fail closed before vault write.
+   If the refined note still contains half-English half-Chinese lines or inconsistent Traditional/Simplified Chinese locale mixing, fail closed before vault write.
    Completion condition:
    - lint has actually run and produced a result
    Allowed on failure:
@@ -214,9 +214,9 @@ For a normal single-paper note request, the pipeline below is a required executi
    After `final_quality_review` passes, reread the full note once more as a language-and-expression quality pass.
    This stage exists because script lint only enforces the floor and cannot judge every awkward phrase or stiff translation.
    Required focus:
-   - smooth unnatural Chinese prose
+   - smooth unnatural Traditional Chinese prose with Taiwan wording
    - remove stiff translations
-   - rewrite ordinary English phrase leftovers into natural Chinese
+   - rewrite ordinary English phrase leftovers into natural Traditional Chinese with Taiwan wording
    - keep stable proper nouns only when retaining English is genuinely more natural
    Completion condition:
    - the full note has been reread after lint

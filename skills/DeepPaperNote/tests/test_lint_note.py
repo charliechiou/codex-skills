@@ -27,59 +27,59 @@ from lint_note import (
 def _valid_note_text() -> str:
     return """# Paper
 
-## 核心信息
+## 核心資訊
 
-- 标题: Paper
-- 发表时间: 2024
+- 標題: Paper
+- 發表時間: 2024
 - DOI: 10.1234/example
 
-## 原文摘要翻译
+## 原文摘要翻譯
 
-论文围绕长链路推理中的错误传播问题，提出一种把检索证据、工具调用状态和最终答案联合建模的框架，并报告了主要实验结论。
+論文圍繞長鏈路推理中的錯誤傳播問題，提出一種把檢索證據、工具呼叫狀態和最終答案聯合建模的框架，並報告了主要實驗結論。
 
-## 创新点
+## 創新點
 
-- 论文把检索证据选择和工具调用规划放在同一个状态转移过程里建模，使错误证据不会在后续步骤中被默认当成可靠输入。
-- 论文设计了失败调用回溯机制，显式记录每一步工具返回的置信度和异常类型，从而让最终答案能区分证据不足和模型推理错误。
+- 論文把檢索證據選擇和工具呼叫規劃放在同一個狀態轉移過程裡建模，使錯誤證據不會在後續步驟中被預設當成可靠輸入。
+- 論文設計了失敗呼叫回溯機制，顯式記錄每一步工具返回的置信度和異常型別，從而讓最終答案能區分證據不足和模型推理錯誤。
 
-## 一句话总结
+## 一句話總結
 
-这篇论文用可审计的工具调用状态机降低长链路问答中的错误累积。
+這篇論文用可稽核的工具呼叫狀態機降低長鏈路問答中的錯誤累積。
 
-## 研究问题
+## 研究問題
 
-论文关注多步问答系统在检索证据不完整、工具调用失败和中间状态被误用时，如何保持最终答案的可追溯性与可靠性。
+論文關注多步問答系統在檢索證據不完整、工具呼叫失敗和中間狀態被誤用時，如何保持最終答案的可追溯性與可靠性。
 
-## 数据与任务定义
+## 資料與任務定義
 
-任务输入包括用户问题、候选检索证据和可调用工具列表；输出包括最终答案、每一步工具调用记录以及失败原因标注。
+任務輸入包括使用者問題、候選檢索證據和可呼叫工具列表；輸出包括最終答案、每一步工具呼叫記錄以及失敗原因標註。
 
-## 方法主线
+## 方法主線
 
-### 机制流程
+### 機制流程
 
-输入问题先进入证据筛选模块，随后工具规划器选择下一步调用，最后由答案生成器结合状态日志输出可追溯结论。
+輸入問題先進入證據篩選模組，隨後工具規劃器選擇下一步呼叫，最後由答案產生器結合狀態日誌輸出可追溯結論。
 
-> [!figure] 图一 方法概览
-> 建议位置：方法主线
-> 放置原因：帮助理解整体过程。
-> 当前状态：保留占位；未找到高置信度整图。
+> [!figure] 圖一 方法概覽
+> 建議位置：方法主線
+> 放置原因：幫助理解整體過程。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 
-## 关键结果
+## 關鍵結果
 
-在三个多步问答数据集上，方法把答案准确率从 71.2% 提升到 78.5%，并将不可追溯错误比例从 18% 降到 9%。
+在三個多步問答資料集上，方法把答案準確率從 71.2% 提升到 78.5%，並將不可追溯錯誤比例從 18% 降到 9%。
 
 ## 深度分析
 
-这项工作的关键价值不只是提升最终分数，而是把失败工具调用从隐藏中间状态变成可检查证据，因此适合需要审计链路的知识密集型问答。
+這項工作的關鍵價值不只是提升最終分數，而是把失敗工具呼叫從隱藏中間狀態變成可檢查證據，因此適合需要稽核鏈路的知識密集型問答。
 
-## 局限
+## 侷限
 
-论文主要在英文问答数据上验证，工具集合也集中在检索和计算两类，尚未证明该状态机能稳定覆盖多模态工具或高延迟外部服务。
+論文主要在英文問答資料上驗證，工具集合也集中在檢索和計算兩類，尚未證明該狀態機能穩定覆蓋多模態工具或高延遲外部服務。
 
-## 我的笔记
+## 我的筆記
 
-我会重点关注它的失败回溯机制是否能迁移到论文精读流程，因为 DeepPaperNote 同样需要区分证据缺失和模型总结不足。
+我會重點關注它的失敗回溯機制是否能遷移到論文精讀流程，因為 DeepPaperNote 同樣需要區分證據缺失和模型總結不足。
 
 ## 引用
 
@@ -90,11 +90,11 @@ def _valid_note_text() -> str:
 def test_figure_callout_requires_status_line() -> None:
     note = """# Title
 
-## 核心信息
+## 核心資訊
 
-> [!figure] Fig. 1 方法图
-> 建议位置：方法主线
-> 放置原因：帮助理解整体流程。
+> [!figure] Fig. 1 方法圖
+> 建議位置：方法主線
+> 放置原因：幫助理解整體流程。
 """
     warnings = inspect_figure_callouts(note)
     assert "figure_callout_missing_status" in warnings
@@ -116,12 +116,12 @@ def test_figure_bucket_heading_is_figure_structure_issue() -> None:
 
 ## 深度分析
 
-### 剩余图表占位
+### 剩餘圖表佔位
 
-> [!figure] Fig. 6 补充图
-> 建议位置：深度分析
-> 放置原因：帮助理解补充材料。
-> 当前状态：保留占位；未找到高置信度整图。
+> [!figure] Fig. 6 補充圖
+> 建議位置：深度分析
+> 放置原因：幫助理解補充材料。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "figure_placeholder_bucket_heading" for issue in issues)
@@ -133,10 +133,10 @@ def test_figure_callout_target_section_mismatch_is_flagged() -> None:
 
 ## 深度分析
 
-> [!figure] Fig. 1 问题边界图
-> 建议位置：研究问题
-> 放置原因：帮助定义问题边界。
-> 当前状态：保留占位；未找到高置信度整图。
+> [!figure] Fig. 1 問題邊界圖
+> 建議位置：研究問題
+> 放置原因：幫助定義問題邊界。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "figure_callout_placement_mismatch" for issue in issues)
@@ -145,19 +145,19 @@ def test_figure_callout_target_section_mismatch_is_flagged() -> None:
 def test_figure_callout_inside_declared_section_passes() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-### 机制流程
+### 機制流程
 
-> [!figure] Fig. 2 总体流程
-> 建议位置：方法主线
-> 放置原因：帮助理解执行链。
-> 当前状态：保留占位；未找到高置信度整图。
+> [!figure] Fig. 2 總體流程
+> 建議位置：方法主線
+> 放置原因：幫助理解執行鏈。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 
-> [!figure] Fig. 3 机制细节
-> 建议位置：机制流程
-> 放置原因：帮助理解执行链细节。
-> 当前状态：保留占位；未找到高置信度整图。
+> [!figure] Fig. 3 機制細節
+> 建議位置：機制流程
+> 放置原因：幫助理解執行鏈細節。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 """
     assert figure_structure_issues(note) == []
     assert figure_structure_passes(note) is True
@@ -166,12 +166,12 @@ def test_figure_callout_inside_declared_section_passes() -> None:
 def test_figure_callout_with_inserted_image_status_fails_figure_structure_gate() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Fig. 2 总体流程
-> 建议位置：方法主线
-> 放置原因：帮助理解执行链。
-> 当前状态：已替换为真实图片；当前插入的是论文原图的局部面板。
+> [!figure] Fig. 2 總體流程
+> 建議位置：方法主線
+> 放置原因：幫助理解執行鏈。
+> 當前狀態：已替換為真實圖片；當前插入的是論文原圖的區域性面板。
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "inserted_figure_redundant_callout" for issue in issues)
@@ -181,14 +181,14 @@ def test_figure_callout_with_inserted_image_status_fails_figure_structure_gate()
 def test_dqn_style_callout_plus_embed_fails_figure_structure_gate() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
 > [!figure] Fig. 1 Agent-environment loop
-> 建议位置：方法主线
-> 放置原因：帮助理解强化学习交互闭环。
-> 当前状态：已复制到 images/figure_1.png，并插入为真实图片。
+> 建議位置：方法主線
+> 放置原因：幫助理解強化學習互動閉環。
+> 當前狀態：已複製到 images/figure_1.png，並插入為真實圖片。
 ![[Research/Papers/DQN/images/figure_1.png]]
-*论文原图编号：Fig. 1。Agent-environment loop。*
+*論文原圖編號：Fig. 1。Agent-environment loop。*
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "inserted_figure_redundant_callout" for issue in issues)
@@ -200,9 +200,9 @@ def test_non_figure_remaining_heading_is_not_flagged() -> None:
 
 ## 深度分析
 
-### 剩余问题
+### 剩餘問題
 
-这里讨论论文还没有回答的问题。
+這裡討論論文還沒有回答的問題。
 """
     assert figure_structure_issues(note) == []
 
@@ -210,11 +210,11 @@ def test_non_figure_remaining_heading_is_not_flagged() -> None:
 def test_figure_callout_missing_location_fails_figure_structure_gate() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Fig. 1 方法图
-> 放置原因：帮助理解整体流程。
-> 当前状态：保留占位；未找到高置信度整图。
+> [!figure] Fig. 1 方法圖
+> 放置原因：幫助理解整體流程。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "figure_callout_missing_location" for issue in issues)
@@ -224,12 +224,12 @@ def test_figure_callout_missing_location_fails_figure_structure_gate() -> None:
 def test_figure_callout_missing_title_fails_figure_structure_gate() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
 > [!figure]
-> 建议位置：方法主线
-> 放置原因：帮助理解整体流程。
-> 当前状态：保留占位；未找到高置信度整图。
+> 建議位置：方法主線
+> 放置原因：幫助理解整體流程。
+> 當前狀態：保留佔位；未找到高置信度整圖。
 """
     warnings = inspect_figure_callouts(note)
     issues = figure_structure_issues(note)
@@ -241,9 +241,9 @@ def test_figure_callout_missing_title_fails_figure_structure_gate() -> None:
 def test_nonstandard_bracket_figure_placeholder_fails_figure_structure_gate() -> None:
     note = """# Title
 
-## 研究问题
+## 研究問題
 
-[图表占位 | Fig. 1] 论文给出的整体任务示意图。
+[圖表佔位 | Fig. 1] 論文給出的整體任務示意圖。
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "nonstandard_figure_placeholder_format" for issue in issues)
@@ -253,9 +253,9 @@ def test_nonstandard_bracket_figure_placeholder_fails_figure_structure_gate() ->
 def test_nonstandard_colon_and_english_figure_placeholders_fail_gate() -> None:
     note = """# Title
 
-## 关键结果
+## 關鍵結果
 
-图表占位：Table 2 跨数据集结果。
+圖表佔位：Table 2 跨資料集結果。
 
 Figure Placeholder | Fig. 3 reasoning example.
 """
@@ -267,7 +267,7 @@ Figure Placeholder | Fig. 3 reasoning example.
 def test_image_embed_without_italic_caption_fails_figure_structure_gate() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
 ![Fig. 2 Architecture](images/page_005_fig_figure_2.png)
 """
@@ -279,10 +279,10 @@ def test_image_embed_without_italic_caption_fails_figure_structure_gate() -> Non
 def test_flashattention_style_embed_with_italic_caption_passes() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
 ![[Research/Papers/FlashAttention/images/page_005_fig_figure_2.png]]
-*论文原图编号：Fig. 2。FlashAttention 的分块计算流程图。这里插入是因为它最能帮助理解方法主线。*
+*論文原圖編號：Fig. 2。FlashAttention 的分塊計算流程圖。這裡插入是因為它最能幫助理解方法主線。*
 """
     assert figure_structure_issues(note) == []
     assert figure_structure_passes(note) is True
@@ -291,22 +291,22 @@ def test_flashattention_style_embed_with_italic_caption_passes() -> None:
 
 def test_usable_candidate_soft_placeholder_reasons_fail_figure_structure_gate() -> None:
     statuses = [
-        "图像裁剪可读，但最终笔记采用占位以保持轻量。",
-        "图像匹配度高，但最终笔记不插入真实图片。",
-        "表格裁剪清晰，但正文已摘录核心数值。",
-        "虽然有可用候选图，但表格内容在正文中更适合直接转写关键数值。",
-        "已人工查看，裁剪清晰且图号匹配；但 Fig. 1 已承担主流程说明，因此作为低优先级补充图保留占位。",
-        "已人工查看，图像清晰且图号匹配；由于它服务于辅助集说明，而非主结论，因此作为低优先级补充图保留占位。",
+        "影像裁剪可讀，但最終筆記採用佔位以保持輕量。",
+        "影像匹配度高，但最終筆記不插入真實圖片。",
+        "表格裁剪清晰，但正文已摘錄核心數值。",
+        "雖然有可用候選圖，但表格內容在正文中更適合直接轉寫關鍵數值。",
+        "已人工檢視，裁剪清晰且圖號匹配；但 Fig. 1 已承擔主流程說明，因此作為低優先順序補充圖保留佔位。",
+        "已人工檢視，影像清晰且圖號匹配；由於它服務於輔助集說明，而非主結論，因此作為低優先順序補充圖保留佔位。",
     ]
     for status in statuses:
         note = f"""# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Fig. 2 候选图
-> 建议位置：方法主线
-> 放置原因：帮助理解执行链。
-> 当前状态：{status}
+> [!figure] Fig. 2 候選圖
+> 建議位置：方法主線
+> 放置原因：幫助理解執行鏈。
+> 當前狀態：{status}
 """
         issues = figure_structure_issues(note)
         assert any(issue["reason"] == "usable_candidate_unresolved_decision" for issue in issues)
@@ -316,12 +316,12 @@ def test_usable_candidate_soft_placeholder_reasons_fail_figure_structure_gate() 
 def test_usable_candidate_visual_defect_placeholder_reason_passes() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Table 5 评测表
-> 建议位置：方法主线
-> 放置原因：帮助理解评测协议。
-> 当前状态：候选裁剪可用，但混入相邻 Table 6。
+> [!figure] Table 5 評測表
+> 建議位置：方法主線
+> 放置原因：幫助理解評測協議。
+> 當前狀態：候選裁剪可用，但混入相鄰 Table 6。
 """
     assert figure_structure_issues(note) == []
     assert figure_structure_passes(note) is True
@@ -330,12 +330,12 @@ def test_usable_candidate_visual_defect_placeholder_reason_passes() -> None:
 def test_usable_candidate_lower_priority_placeholder_reason_fails() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Fig. 3 补充机制图
-> 建议位置：方法主线
-> 放置原因：帮助理解补充机制。
-> 当前状态：候选裁剪可用；已插入 Figure 2 作为同一机制更核心图，因此本图低优先级。
+> [!figure] Fig. 3 補充機制圖
+> 建議位置：方法主線
+> 放置原因：幫助理解補充機制。
+> 當前狀態：候選裁剪可用；已插入 Figure 2 作為同一機制更核心圖，因此本圖低優先順序。
 """
     issues = figure_structure_issues(note)
     assert any(issue["reason"] == "usable_candidate_unresolved_decision" for issue in issues)
@@ -345,12 +345,12 @@ def test_usable_candidate_lower_priority_placeholder_reason_fails() -> None:
 def test_usable_candidate_materialization_blocked_reason_passes() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Fig. 4 工具链图
-> 建议位置：方法主线
-> 放置原因：帮助理解工具链。
-> 当前状态：候选可用但 materialize_figure_asset.py 复制失败/权限不足。
+> [!figure] Fig. 4 工具鏈圖
+> 建議位置：方法主線
+> 放置原因：幫助理解工具鏈。
+> 當前狀態：候選可用但 materialize_figure_asset.py 複製失敗/許可權不足。
 """
     assert figure_structure_issues(note) == []
     assert figure_structure_passes(note) is True
@@ -359,12 +359,12 @@ def test_usable_candidate_materialization_blocked_reason_passes() -> None:
 def test_missing_asset_must_not_be_reported_as_materialization_blocked() -> None:
     note = """# Title
 
-## 方法主线
+## 方法主線
 
-> [!figure] Fig. 4 系统图
-> 建议位置：方法主线
-> 放置原因：帮助理解整体执行链。
-> 当前状态：保留占位：对应图像资产缺失导致 materialize_figure_asset.py 复制 blocked；保留结构占位用于回查原图。
+> [!figure] Fig. 4 系統圖
+> 建議位置：方法主線
+> 放置原因：幫助理解整體執行鏈。
+> 當前狀態：保留佔位：對應影像資產缺失導致 materialize_figure_asset.py 複製 blocked；保留結構佔位用於回查原圖。
 """
     issues = figure_structure_issues(note)
     assert any(
@@ -379,13 +379,13 @@ def test_chinese_placeholder_policy_prose_is_not_flagged_as_nonstandard_placehol
 
 ## 深度分析
 
-这里讨论图表占位策略为什么不能替代正文分析。
+這裡討論圖表佔位策略為什麼不能替代正文分析。
 """
     assert figure_structure_issues(note) == []
 
 
 def test_mechanical_translation_detector_flags_figure_title_artifacts() -> None:
-    note = "> [!figure] Figure 7 Storing the KV缓存 of two requests at the same time in vLLM"
+    note = "> [!figure] Figure 7 Storing the KV快取 of two requests at the same time in vLLM"
 
     issues = mechanical_translation_artifact_issues(note)
 
@@ -394,7 +394,7 @@ def test_mechanical_translation_detector_flags_figure_title_artifacts() -> None:
 
 
 def test_mechanical_translation_detector_flags_metadata_artifacts() -> None:
-    note = "- 机构: UC Berkeley, Stanford University, In相关 Researcher, UC San Diego"
+    note = "- 機構: UC Berkeley, Stanford University, In相關 Researcher, UC San Diego"
 
     issues = mechanical_translation_artifact_issues(note)
 
@@ -403,43 +403,43 @@ def test_mechanical_translation_detector_flags_metadata_artifacts() -> None:
 
 
 def test_mechanical_translation_detector_accepts_stable_proper_nouns() -> None:
-    note = "> [!figure] Fig. 2 Overview of the training pipeline，训练流程概览。"
+    note = "> [!figure] Fig. 2 Overview of the training pipeline，訓練流程概覽。"
 
     assert mechanical_translation_artifact_issues(note) == []
 
 
 def test_mixed_language_detector_flags_prose_line() -> None:
-    note = "这篇论文 uses a model and the result is better than baseline in several settings."
+    note = "這篇論文 uses a model and the result is better than baseline in several settings."
     issues = mixed_language_issues(note)
     assert len(issues) == 1
 
 
 def test_mixed_language_detector_exempts_figure_status_lines() -> None:
-    note = "> 当前状态：保留占位；当前提取结果只拿到 partial crop，无法稳定恢复。"
+    note = "> 當前狀態：保留佔位；當前提取結果只拿到 partial crop，無法穩定還原。"
     issues = mixed_language_issues(note)
     assert issues == []
 
 
 def test_mixed_language_detector_exempts_figure_callout_title_only() -> None:
-    note = "> [!figure] Fig. 2 Overview of the training pipeline，训练流程概览。"
+    note = "> [!figure] Fig. 2 Overview of the training pipeline，訓練流程概覽。"
     issues = mixed_language_issues(note)
     assert issues == []
 
 
 def test_mixed_language_detector_flags_ordinary_blockquote_prose() -> None:
-    note = "> 这段解释 uses a model and the result is better than baseline in experiments."
+    note = "> 這段解釋 uses a model and the result is better than baseline in experiments."
     issues = mixed_language_issues(note)
     assert len(issues) == 1
 
 
 def test_mixed_language_detector_exempts_core_info_section() -> None:
-    note = """## 核心信息
+    note = """## 核心資訊
 
-- 标题：
+- 標題：
 `AffectGPT: A New Dataset, Model, and Benchmark for Emotion Understanding with Multimodal Large Language Models`
 - 作者：
 Zheng Lian, Haoyu Chen, Lan Chen
-- 机构：
+- 機構：
 Institute of Automation, Chinese Academy of Sciences
 """
     issues = mixed_language_issues(note)
@@ -447,7 +447,7 @@ Institute of Automation, Chinese Academy of Sciences
 
 
 def test_mixed_language_detector_exempts_core_info_wrapped_value_lines() -> None:
-    note = """## 核心信息
+    note = """## 核心資訊
 
 - 作者：
 Zheng Lian, Haoyu Chen, Lan Chen, Haiyang Sun
@@ -458,28 +458,28 @@ and additional collaborators from multiple institutions
 
 
 def test_mixed_language_detector_flags_summary_section_when_mixed() -> None:
-    note = """## 原文摘要翻译
+    note = """## 原文摘要翻譯
 
-这篇论文 uses a multimodal framework and achieves strong performance.
+這篇論文 uses a multimodal framework and achieves strong performance.
 """
     issues = mixed_language_issues(note)
     assert len(issues) == 1
 
 
 def test_mid_sentence_linebreak_detector_flags_pdf_style_wrapping() -> None:
-    note = "这篇论文最重要的贡献在于，\n它重新定义了视觉自回归的预测顺序。"
+    note = "這篇論文最重要的貢獻在於，\n它重新定義了視覺自迴歸的預測順序。"
     issues = suspicious_mid_sentence_linebreaks(note)
     assert len(issues) == 1
 
 
 def test_mid_sentence_linebreak_detector_ignores_real_paragraph_breaks() -> None:
-    note = "这篇论文最重要的贡献在于重新定义了视觉自回归的预测顺序。\n\n## 方法主线"
+    note = "這篇論文最重要的貢獻在於重新定義了視覺自迴歸的預測順序。\n\n## 方法主線"
     issues = suspicious_mid_sentence_linebreaks(note)
     assert issues == []
 
 
 def test_code_formatted_math_detector_flags_inline_code_formula() -> None:
-    note = "核心分解可以写成 `p(r_1, r_2)=\\prod_k p(r_k | r_{<k})`。"
+    note = "核心分解可以寫成 `p(r_1, r_2)=\\prod_k p(r_k | r_{<k})`。"
     issues = suspicious_code_formatted_math(note)
     assert len(issues) == 1
 
@@ -493,7 +493,7 @@ L = x + y
 
 
 def test_math_render_detector_flags_double_escaped_tex_command() -> None:
-    note = """## 方法主线
+    note = """## 方法主線
 
 $$
 \\\\tau = \\\\exp(x)
@@ -558,30 +558,30 @@ $$
 def test_find_missing_sections_requires_innovation_section() -> None:
     note = """# Title
 
-## 核心信息
+## 核心資訊
 
-## 原文摘要翻译
+## 原文摘要翻譯
 
-## 一句话总结
+## 一句話總結
 
-## 研究问题
+## 研究問題
 
-## 数据与任务定义
+## 資料與任務定義
 
-## 方法主线
+## 方法主線
 
-## 关键结果
+## 關鍵結果
 
 ## 深度分析
 
-## 局限
+## 侷限
 
-## 我的笔记
+## 我的筆記
 
 ## 引用
 """
     missing = find_missing_sections(note)
-    assert "创新点" in missing
+    assert "創新點" in missing
 
 
 def test_substantive_gate_passes_specific_note() -> None:
@@ -592,9 +592,9 @@ def test_substantive_gate_passes_specific_note() -> None:
 
 def test_substantive_gate_rejects_empty_shell_innovation() -> None:
     note = _valid_note_text().replace(
-        "- 论文把检索证据选择和工具调用规划放在同一个状态转移过程里建模，使错误证据不会在后续步骤中被默认当成可靠输入。\n"
-        "- 论文设计了失败调用回溯机制，显式记录每一步工具返回的置信度和异常类型，从而让最终答案能区分证据不足和模型推理错误。",
-        "本文提出一种新方法，具有创新性。",
+        "- 論文把檢索證據選擇和工具呼叫規劃放在同一個狀態轉移過程裡建模，使錯誤證據不會在後續步驟中被預設當成可靠輸入。\n"
+        "- 論文設計了失敗呼叫回溯機制，顯式記錄每一步工具返回的置信度和異常型別，從而讓最終答案能區分證據不足和模型推理錯誤。",
+        "本文提出一種新方法，具有創新性。",
     )
 
     issues = inspect_substantive_content(note)
@@ -605,9 +605,9 @@ def test_substantive_gate_rejects_empty_shell_innovation() -> None:
 
 def test_substantive_gate_warns_single_specific_innovation() -> None:
     note = _valid_note_text().replace(
-        "- 论文把检索证据选择和工具调用规划放在同一个状态转移过程里建模，使错误证据不会在后续步骤中被默认当成可靠输入。\n"
-        "- 论文设计了失败调用回溯机制，显式记录每一步工具返回的置信度和异常类型，从而让最终答案能区分证据不足和模型推理错误。",
-        "- 论文把检索证据选择和工具调用规划放在同一个状态转移过程里建模，使错误证据不会在后续步骤中被默认当成可靠输入。",
+        "- 論文把檢索證據選擇和工具呼叫規劃放在同一個狀態轉移過程裡建模，使錯誤證據不會在後續步驟中被預設當成可靠輸入。\n"
+        "- 論文設計了失敗呼叫回溯機制，顯式記錄每一步工具返回的置信度和異常型別，從而讓最終答案能區分證據不足和模型推理錯誤。",
+        "- 論文把檢索證據選擇和工具呼叫規劃放在同一個狀態轉移過程裡建模，使錯誤證據不會在後續步驟中被預設當成可靠輸入。",
     )
 
     issues = inspect_substantive_content(note)
@@ -618,8 +618,8 @@ def test_substantive_gate_warns_single_specific_innovation() -> None:
 
 def test_substantive_gate_rejects_generic_key_results() -> None:
     note = _valid_note_text().replace(
-        "在三个多步问答数据集上，方法把答案准确率从 71.2% 提升到 78.5%，并将不可追溯错误比例从 18% 降到 9%。",
-        "实验结果表明方法有效。",
+        "在三個多步問答資料集上，方法把答案準確率從 71.2% 提升到 78.5%，並將不可追溯錯誤比例從 18% 降到 9%。",
+        "實驗結果表明方法有效。",
     )
 
     issues = inspect_substantive_content(note)
@@ -630,8 +630,8 @@ def test_substantive_gate_rejects_generic_key_results() -> None:
 
 def test_substantive_gate_rejects_honest_missing_in_key_results() -> None:
     note = _valid_note_text().replace(
-        "在三个多步问答数据集上，方法把答案准确率从 71.2% 提升到 78.5%，并将不可追溯错误比例从 18% 降到 9%。",
-        "本文未给出可复现的定量 benchmark；依据是正文和附录都只报告案例分析，没有指标表或 baseline 对比，因此这里不能伪造数值结论，只能说明结论强度受限。",
+        "在三個多步問答資料集上，方法把答案準確率從 71.2% 提升到 78.5%，並將不可追溯錯誤比例從 18% 降到 9%。",
+        "本文未給出可重現的定量 benchmark；依據是正文和附錄都只報告案例分析，沒有指標表或 baseline 對比，因此這裡不能偽造數值結論，只能說明結論強度受限。",
     )
 
     issues = inspect_substantive_content(note)
@@ -642,21 +642,21 @@ def test_substantive_gate_rejects_honest_missing_in_key_results() -> None:
 
 def test_substantive_gate_rejects_honest_missing_outside_references() -> None:
     note = _valid_note_text().replace(
-        "输入问题先进入证据筛选模块，随后工具规划器选择下一步调用，最后由答案生成器结合状态日志输出可追溯结论。",
-        "本文未给出可复现的方法流程；依据是正文和附录都没有展开模块输入输出，因此这里不能补写机制细节，只能说明方法理解受限。",
+        "輸入問題先進入證據篩選模組，隨後工具規劃器選擇下一步呼叫，最後由答案產生器結合狀態日誌輸出可追溯結論。",
+        "本文未給出可重現的方法流程；依據是正文和附錄都沒有展開模組輸入輸出，因此這裡不能補寫機制細節，只能說明方法理解受限。",
     )
 
     issues = inspect_substantive_content(note)
 
     assert any(issue["reason"] == "section_honest_missing_not_allowed" for issue in issues)
-    assert any(issue["section"] == "方法主线" for issue in issues)
+    assert any(issue["section"] == "方法主線" for issue in issues)
     assert any(issue["severity"] == "error" for issue in issues)
 
 
 def test_substantive_gate_rejects_placeholder_references() -> None:
     note = _valid_note_text().replace(
         "- Smith et al. 2024. Auditable Tool Use for Multi-hop Question Answering. DOI: 10.1234/example",
-        "待补充。",
+        "待補充。",
     )
 
     issues = inspect_substantive_content(note)
@@ -668,7 +668,7 @@ def test_substantive_gate_rejects_placeholder_references() -> None:
 def test_substantive_gate_accepts_real_reference_entry() -> None:
     note = _valid_note_text().replace(
         "- Smith et al. 2024. Auditable Tool Use for Multi-hop Question Answering. DOI: 10.1234/example",
-        "- [[Auditable Tool Use|Smith et al. 2024]] 提供了工具调用审计的直接参考。",
+        "- [[Auditable Tool Use|Smith et al. 2024]] 提供了工具呼叫稽核的直接參考。",
     )
 
     issues = inspect_substantive_content(note)
@@ -679,7 +679,7 @@ def test_substantive_gate_accepts_real_reference_entry() -> None:
 def test_substantive_gate_allows_honest_missing_in_references() -> None:
     note = _valid_note_text().replace(
         "- Smith et al. 2024. Auditable Tool Use for Multi-hop Question Answering. DOI: 10.1234/example",
-        "本文未给出可解析的参考文献条目；依据是正文和附录未提供 DOI、arXiv 或编号引用，因此引用完整性受限。",
+        "本文未給出可解析的參考文獻條目；依據是正文和附錄未提供 DOI、arXiv 或編號引用，因此引用完整性受限。",
     )
 
     issues = inspect_substantive_content(note)
@@ -690,8 +690,8 @@ def test_substantive_gate_allows_honest_missing_in_references() -> None:
 
 def test_substantive_gate_rejects_generic_limitation() -> None:
     note = _valid_note_text().replace(
-        "论文主要在英文问答数据上验证，工具集合也集中在检索和计算两类，尚未证明该状态机能稳定覆盖多模态工具或高延迟外部服务。",
-        "未来工作需要更多数据。",
+        "論文主要在英文問答資料上驗證，工具集合也集中在檢索和計算兩類，尚未證明該狀態機能穩定覆蓋多模態工具或高延遲外部服務。",
+        "未來工作需要更多資料。",
     )
 
     issues = inspect_substantive_content(note)
@@ -701,12 +701,12 @@ def test_substantive_gate_rejects_generic_limitation() -> None:
 
 
 def test_strip_frontmatter_removes_yaml_block() -> None:
-    text = "---\ntags:\n  - papers/NLP\ndate: 2024-01-01\n---\n\n# Title\n\n## 核心信息\n"
+    text = "---\ntags:\n  - papers/NLP\ndate: 2024-01-01\n---\n\n# Title\n\n## 核心資訊\n"
     assert strip_frontmatter(text).lstrip().startswith("# Title")
 
 
 def test_strip_frontmatter_is_noop_without_frontmatter() -> None:
-    text = "# Title\n\n## 核心信息\n"
+    text = "# Title\n\n## 核心資訊\n"
     assert strip_frontmatter(text) == text
 
 
@@ -728,13 +728,13 @@ def test_mid_sentence_linebreaks_not_triggered_by_frontmatter() -> None:
 def test_front_matter_order_requires_innovation_after_abstract() -> None:
     note = """# Title
 
-## 核心信息
+## 核心資訊
 
-## 原文摘要翻译
+## 原文摘要翻譯
 
-## 一句话总结
+## 一句話總結
 
-## 创新点
+## 創新點
 """
     warnings = front_matter_order_warnings(note)
     assert "front_matter_order_invalid" in warnings
@@ -743,22 +743,22 @@ def test_front_matter_order_requires_innovation_after_abstract() -> None:
 def test_core_info_accepts_fixed_metadata_schema() -> None:
     note = """# Title
 
-## 核心信息
+## 核心資訊
 
-- 标题: Example Paper
-- 标题翻译: 示例论文
+- 標題: Example Paper
+- 標題翻譯: 示例論文
 - 作者: Ada Lovelace; Alan Turing
-- 机构: Example Lab
-- 发表时间: 2024
-- 发表渠道: arXiv
+- 機構: Example Lab
+- 發表時間: 2024
+- 發表管道: arXiv
 - DOI: 10.1234/example
 - arXiv: 2401.00001
-- 论文链接: https://arxiv.org/abs/2401.00001
-- 代码 / 项目: https://github.com/example/project
-- 数据 / 资源: https://example.org/data
-- 论文类型: AI_method
+- 論文連結: https://arxiv.org/abs/2401.00001
+- 程式碼 / 專案: https://github.com/example/project
+- 資料 / 資源: https://example.org/data
+- 論文型別: AI_method
 
-## 原文摘要翻译
+## 原文摘要翻譯
 """
 
     assert core_info_structure_issues(note) == []
@@ -767,15 +767,15 @@ def test_core_info_accepts_fixed_metadata_schema() -> None:
 def test_core_info_rejects_prose_and_ad_hoc_fields() -> None:
     note = """# Title
 
-## 核心信息
+## 核心資訊
 
-- 标题: Example Paper
+- 標題: Example Paper
 - 作者: Ada Lovelace
-- 我的评价: 很重要
+- 我的評價: 很重要
 
-这篇论文的核心不是提出新模型，而是建立一个评测场。
+這篇論文的核心不是提出新模型，而是建立一個評測場。
 
-## 原文摘要翻译
+## 原文摘要翻譯
 """
 
     issues = core_info_structure_issues(note)
@@ -787,12 +787,12 @@ def test_core_info_rejects_prose_and_ad_hoc_fields() -> None:
 def test_core_info_rejects_out_of_order_fields() -> None:
     note = """# Title
 
-## 核心信息
+## 核心資訊
 
 - 作者: Ada Lovelace
-- 标题: Example Paper
+- 標題: Example Paper
 
-## 原文摘要翻译
+## 原文摘要翻譯
 """
 
     issues = core_info_structure_issues(note)
@@ -806,7 +806,7 @@ def test_core_info_issues_fail_basic_structure_gate(tmp_path) -> None:
     note_path.write_text(
         _valid_note_text().replace(
             "- DOI: 10.1234/example",
-            "- DOI: 10.1234/example\n\n这篇论文在元数据块里追加了一句导读。",
+            "- DOI: 10.1234/example\n\n這篇論文在元資料塊裡追加了一句導讀。",
         ),
         encoding="utf-8",
     )
@@ -833,7 +833,7 @@ def test_core_info_issues_fail_basic_structure_gate(tmp_path) -> None:
                 "comparative_positioning": ["The method is compared against answer-only baselines."],
                 "reuse_takeaways": ["Track failure state explicitly."],
                 "followup_questions": ["Check whether the mechanism survives missing tool outputs."],
-                "section_plan": [{"section": "方法主线", "evidence_sources": [{"section_id": "sec:method"}]}],
+                "section_plan": [{"section": "方法主線", "evidence_sources": [{"section_id": "sec:method"}]}],
             }
         ),
         encoding="utf-8",
@@ -887,8 +887,8 @@ def test_mechanical_translation_artifacts_fail_style_gate(tmp_path) -> None:
     plan_path = tmp_path / "Paper.plan.json"
     note_path.write_text(
         _valid_note_text().replace(
-            "放置原因：帮助理解整体过程。",
-            "放置原因：Figure 7 Storing the KV缓存 of two requests.",
+            "放置原因：幫助理解整體過程。",
+            "放置原因：Figure 7 Storing the KV快取 of two requests.",
         ),
         encoding="utf-8",
     )
@@ -898,7 +898,7 @@ def test_mechanical_translation_artifacts_fail_style_gate(tmp_path) -> None:
                 "paper_type": "AI_method",
                 "paper_type_rationale": "The paper proposes a model mechanism and evaluates it experimentally.",
                 "dominant_domain": "reasoning",
-                "must_cover": ["方法主线"],
+                "must_cover": ["方法主線"],
                 "key_numbers": ["78.5"],
                 "real_comparisons": ["baseline"],
                 "central_claims": [
@@ -915,7 +915,7 @@ def test_mechanical_translation_artifacts_fail_style_gate(tmp_path) -> None:
                 "comparative_positioning": ["The method is compared against answer-only baselines."],
                 "reuse_takeaways": ["Track failure state explicitly."],
                 "followup_questions": ["Check whether the mechanism survives missing tool outputs."],
-                "section_plan": [{"section": "方法主线", "evidence_sources": [{"section_id": "sec:method"}]}],
+                "section_plan": [{"section": "方法主線", "evidence_sources": [{"section_id": "sec:method"}]}],
             }
         ),
         encoding="utf-8",
@@ -1007,9 +1007,9 @@ def test_note_plan_explicit_not_reported_entries_pass_plan_gate(tmp_path) -> Non
                 "paper_type": "AI_method",
                 "paper_type_rationale": "The paper proposes a model mechanism and evaluates it experimentally.",
                 "dominant_domain": "reasoning",
-                "must_cover": ["方法主线"],
-                "key_numbers": ["论文未报告明确核心数字"],
-                "real_comparisons": ["论文未提供直接对比"],
+                "must_cover": ["方法主線"],
+                "key_numbers": ["論文未報告明確核心數字"],
+                "real_comparisons": ["論文未提供直接對比"],
                 "central_claims": [
                     {
                         "claim": "The paper offers a method mechanism.",
@@ -1019,12 +1019,12 @@ def test_note_plan_explicit_not_reported_entries_pass_plan_gate(tmp_path) -> Non
                     }
                 ],
                 "claim_boundaries": ["The comparison evidence is limited."],
-                "negative_or_limiting_results": ["论文未清楚报告负向消融。"],
+                "negative_or_limiting_results": ["論文未清楚報告負向消融。"],
                 "mechanism_result_map": ["The state log explains why errors can be recovered."],
                 "comparative_positioning": ["The method is positioned against answer-only tool use."],
                 "reuse_takeaways": ["Use explicit state logs when evaluating tool chains."],
                 "followup_questions": ["Test the state log with slower external tools."],
-                "section_plan": [{"section": "方法主线"}],
+                "section_plan": [{"section": "方法主線"}],
             }
         ),
         encoding="utf-8",
@@ -1085,58 +1085,58 @@ def test_real_image_embed_counts_as_figure_marker_in_full_lint(tmp_path) -> None
     note_path.write_text(
         """# Paper
 
-## 核心信息
+## 核心資訊
 
-这是一条完整元信息占位。
+這是一條完整元資訊佔位。
 
-## 原文摘要翻译
+## 原文摘要翻譯
 
-这是一段中文摘要翻译。
+這是一段中文摘要翻譯。
 
-## 创新点
+## 創新點
 
-这里记录论文的具体创新。
+這裡記錄論文的具體創新。
 
-## 一句话总结
+## 一句話總結
 
-这篇论文解决一个清晰问题。
+這篇論文解決一個清晰問題。
 
-## 研究问题
+## 研究問題
 
-问题边界描述清楚。
+問題邊界描述清楚。
 
-## 数据与任务定义
+## 資料與任務定義
 
-任务输入和输出定义清楚。
+任務輸入和輸出定義清楚。
 
-## 方法主线
+## 方法主線
 
-### 执行流程
+### 執行流程
 
-这里说明方法过程。
+這裡說明方法過程。
 
 ![[Research/Papers/Paper/images/page_001_fig_figure_1.png]]
-*论文原图编号：Fig. 1。方法流程图。*
+*論文原圖編號：Fig. 1。方法流程圖。*
 
-## 关键结果
+## 關鍵結果
 
-结果部分记录关键发现。
+結果部分記錄關鍵發現。
 
 ## 深度分析
 
-分析部分说明为什么成立。
+分析部分說明為什麼成立。
 
-## 局限
+## 侷限
 
-这里记录限制。
+這裡記錄限制。
 
-## 我的笔记
+## 我的筆記
 
-这里记录个人理解。
+這裡記錄個人理解。
 
 ## 引用
 
-这里记录引用信息。
+這裡記錄引用資訊。
 """,
         encoding="utf-8",
     )
@@ -1299,7 +1299,7 @@ def test_write_obsidian_note_rejects_unreferenced_insert_decision(tmp_path) -> N
             "--title",
             "Figure Insert Paper",
             "--content",
-            "# Figure Insert Paper\n\n正文没有引用图片。\n",
+            "# Figure Insert Paper\n\n正文沒有引用圖片。\n",
             "--lint-json",
             str(lint_path),
             "--figure-decisions",
@@ -1347,7 +1347,7 @@ def test_write_obsidian_note_rejects_plain_path_for_insert_decision(tmp_path) ->
             "--title",
             "Figure Insert Paper",
             "--content",
-            "# Figure Insert Paper\n\n正文只提到 images/page_001_fig_figure_1.png 这个路径。\n",
+            "# Figure Insert Paper\n\n正文只提到 images/page_001_fig_figure_1.png 這個路徑。\n",
             "--lint-json",
             str(lint_path),
             "--figure-decisions",
@@ -1443,7 +1443,7 @@ def test_inspect_note_plan_rejects_invalid_paper_type(tmp_path) -> None:
                 "paper_type": "method",
                 "paper_type_rationale": "The model-facing plan should use the shared paper type enum.",
                 "dominant_domain": "reasoning",
-                "must_cover": ["方法主线"],
+                "must_cover": ["方法主線"],
                 "key_numbers": ["42"],
                 "real_comparisons": ["baseline"],
                 "central_claims": [
@@ -1460,7 +1460,7 @@ def test_inspect_note_plan_rejects_invalid_paper_type(tmp_path) -> None:
                 "comparative_positioning": ["The plan names the relevant baseline comparison."],
                 "reuse_takeaways": ["Track the mechanism separately from the final result."],
                 "followup_questions": ["Check whether the mechanism transfers to a new dataset."],
-                "section_plan": [{"section": "方法主线"}],
+                "section_plan": [{"section": "方法主線"}],
             }
         ),
         encoding="utf-8",
@@ -1489,7 +1489,7 @@ def test_inspect_note_plan_reports_invalid_field_types(tmp_path) -> None:
                 "comparative_positioning": [],
                 "reuse_takeaways": [],
                 "followup_questions": [],
-                "section_plan": [{"section": "方法主线"}],
+                "section_plan": [{"section": "方法主線"}],
             }
         ),
         encoding="utf-8",
@@ -1549,7 +1549,7 @@ def test_inspect_note_plan_accepts_valid_plan(tmp_path) -> None:
                 "paper_type": "AI_method",
                 "paper_type_rationale": "The paper proposes a model mechanism.",
                 "dominant_domain": "reasoning",
-                "must_cover": ["方法主线"],
+                "must_cover": ["方法主線"],
                 "key_numbers": ["42"],
                 "real_comparisons": ["baseline"],
                 "central_claims": [
@@ -1566,7 +1566,7 @@ def test_inspect_note_plan_accepts_valid_plan(tmp_path) -> None:
                 "comparative_positioning": ["The plan names the relevant baseline comparison."],
                 "reuse_takeaways": ["Track the mechanism separately from the final result."],
                 "followup_questions": ["Check whether the mechanism transfers to a new dataset."],
-                "section_plan": [{"section": "方法主线"}],
+                "section_plan": [{"section": "方法主線"}],
             }
         ),
         encoding="utf-8",

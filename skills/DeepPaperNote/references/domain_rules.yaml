@@ -1,7 +1,7 @@
 # User-editable domain routing taxonomy.
 # Application domains are tried before fallback method domains.
 domains:
-  - label: 医疗健康
+  - label: 醫療健康
     aliases:
       - healthcare
       - medical
@@ -75,7 +75,7 @@ domains:
       - investment
     methods: []
 
-  - label: 机器人
+  - label: 機器人
     aliases:
       - robotics
       - robotic
@@ -92,7 +92,7 @@ domains:
     methods:
       - diffusion policy
 
-  - label: 软件工程
+  - label: 軟體工程
     aliases:
       - software engineering
     keywords:
@@ -107,7 +107,7 @@ domains:
       - compiler
     methods: []
 
-  - label: 生物医学
+  - label: 生物醫學
     aliases:
       - biomedical
       - bioinformatics
@@ -123,7 +123,7 @@ domains:
     methods: []
 
   - label: 心理健康
-    route_to: 医疗健康
+    route_to: 醫療健康
     aliases:
       - mental health
       - psychology
@@ -139,7 +139,7 @@ domains:
       - symptom
     methods: []
 
-  - label: 推荐系统
+  - label: 推薦系統
     aliases:
       - recommender systems
       - recommendation
@@ -185,7 +185,7 @@ fallback_domains:
       - rlhf
     methods: []
 
-  - label: 机器学习
+  - label: 機器學習
     aliases:
       - machine learning
       - ml

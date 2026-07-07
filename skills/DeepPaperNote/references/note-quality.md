@@ -16,23 +16,23 @@ The note is high quality only if it satisfies most of the checks below.
 ## Structural Checks
 
 The note should usually include:
-- `核心信息`
-- `原文摘要翻译`
-- `创新点`
-- `一句话总结`
-- `研究问题`
-- `数据与任务定义`
-- `方法主线`
-- `关键结果`
+- `核心資訊`
+- `原文摘要翻譯`
+- `創新點`
+- `一句話總結`
+- `研究問題`
+- `資料與任務定義`
+- `方法主線`
+- `關鍵結果`
 - `深度分析`
-- `局限`
-- `我的笔记`
+- `侷限`
+- `我的筆記`
 - `引用`
 
 For non-trivial papers, it should usually also include multiple `###` subheadings inside:
-- `数据与任务定义`
-- `方法主线`
-- `关键结果`
+- `資料與任務定義`
+- `方法主線`
+- `關鍵結果`
 - `深度分析`
 
 Before the final note is written, there should also be an explicit short planning artifact:
@@ -63,7 +63,7 @@ Bad sign:
 - It lists model names without explaining the pipeline.
 - It copies metrics without noting the evaluation setting.
 - It says the paper is innovative without locating the innovation.
-- It has no dedicated `创新点` section and leaves the paper's novelty scattered across the note.
+- It has no dedicated `創新點` section and leaves the paper's novelty scattered across the note.
 - It uses generic limitations such as "future work can use more data" and nothing more specific.
 - It flattens a technically rich paper into only `##` headings with no internal structure.
 
@@ -76,7 +76,7 @@ Fail closed if any of these are missing:
 - enough metadata to label the note responsibly
 
 Also fail closed if:
-- the final Chinese note still contains mixed-language prose lines
+- the final Traditional Chinese note still contains mixed-language prose lines or simplified-Chinese / non-Taiwan wording drift
 - English remains in full clauses rather than only stable proper nouns, model names, venues, URLs, or DOIs
 - figure placeholders include untranslated caption sentences that read like raw extraction rather than note prose
 
@@ -95,8 +95,8 @@ For technical papers, strong notes should usually also contain:
 - at least one key formula or formal expression when the paper's contribution depends on it
 - formulas rendered as math rather than code formatting
 
-When abstract metadata exists, strong notes should also make `原文摘要翻译` a faithful Chinese translation of the abstract:
-- translate the original abstract into Chinese rather than rewriting it as your own summary
+When abstract metadata exists, strong notes should also make `原文摘要翻譯` a faithful Traditional Chinese translation of the abstract using Taiwan wording:
+- translate the original abstract into Traditional Chinese rather than rewriting it as your own summary
 - avoid reducing it to a shorter interpretation-only summary
-- keep this section as `原文摘要翻译`, not a bilingual original-plus-translation block
+- keep this section as `原文摘要翻譯`, not a bilingual original-plus-translation block
 - do not mix innovation takeaways, evaluation, or post-hoc interpretation into this section

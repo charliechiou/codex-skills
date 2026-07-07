@@ -4,7 +4,7 @@ Use this guide when the user wants a note that feels like a real research note r
 
 ## Goal
 
-Produce a Chinese paper note that helps future rereading answer:
+Produce a Traditional Chinese paper note using Taiwan wording that helps future rereading answer:
 - this paper is really solving what problem
 - the core route or method chain is what
 - which evidence actually supports the claim
@@ -59,7 +59,7 @@ If you only have the abstract after the supported PDF acquisition paths have fai
    - which research or engineering takeaways are specific enough to reuse
    - which figure/table placeholders are essential
    - whether the paper needs explicit formulas, objective functions, or complexity expressions
-5. Write the final note in Chinese.
+5. Write the final note in Traditional Chinese with Taiwan wording.
 6. Lint it.
 7. Run the final readability review.
 8. Save into the Obsidian vault only after the note passes lint and the final readability review.
@@ -68,15 +68,15 @@ If you only have the abstract after the supported PDF acquisition paths have fai
 
 - Write for future rereading, not for one-time display.
 - Prefer interpretation over translation.
-- Prefer “这篇论文真正有价值的点是...” over “本文提出了...” style filler.
-- Avoid pasting long English sentences into Chinese sections.
+- Prefer “這篇論文真正有價值的點是...” over “本文提出了...” style filler.
+- Avoid pasting long English sentences into Traditional Chinese sections.
 - Do not fabricate metrics, ablations, or claims not supported by evidence.
 - If evidence is weak, write a weak-but-honest note instead of pretending the paper was fully analyzed.
 - For method papers, write like a replication-minded researcher rather than a summary assistant.
 
 ## Section Guide
 
-### 核心信息
+### 核心資訊
 
 Must include:
 - title
@@ -89,7 +89,7 @@ Must include:
 - code repo or project page when available
 - domain
 
-### 一句话总结
+### 一句話總結
 
 Do not paraphrase the abstract.
 
@@ -97,14 +97,14 @@ Answer:
 - what the paper's real contribution is
 - what the title may overstate
 
-### 研究问题
+### 研究問題
 
 Answer:
 - the concrete pain point
 - why existing methods are not enough
 - whether this is a new problem, a new angle on an old problem, or a more realistic reformulation
 
-### 数据与任务定义
+### 資料與任務定義
 
 Must separate:
 - where the data comes from
@@ -118,7 +118,7 @@ For clinical or social-science papers, spell out:
 - annotation or rating assumptions
 - whether the task is realistic or simplified
 
-### 方法主线
+### 方法主線
 
 This is usually where a shallow note fails.
 
@@ -134,19 +134,19 @@ Explain:
 - make the reader feel the Input -> key transformation -> Output flow, not just the paper's terminology
 
 For method, framework, or system papers:
-- default to an explicit `### 机制流程` subsection inside `方法主线`
+- default to an explicit `### 機制流程` subsection inside `方法主線`
 - write it as a 3 to 4 step numbered list rather than a long paragraph
 - each step should say what goes in, what operation happens, and where the output goes next
-- if the paper has both training and inference details, use `### 机制流程` for the dominant execution chain and leave training recipe details to neighboring subsections
+- if the paper has both training and inference details, use `### 機制流程` for the dominant execution chain and leave training recipe details to neighboring subsections
 
 For complex papers, use `###` subheadings such as:
-- `### 机制流程`
-- `### 数据构建`
-- `### 中间表征抽取`
-- `### 模型结构`
-- `### 训练与推理`
+- `### 機制流程`
+- `### 資料建構`
+- `### 中間表徵抽取`
+- `### 模型結構`
+- `### 訓練與推理`
 
-### 关键结果
+### 關鍵結果
 
 Do not dump all metrics.
 
@@ -183,14 +183,14 @@ Use the plan's `central_claims` as the spine of this section:
 - when the paper has Discussion or Limitations, explain the mechanism behind those caveats rather than copying them as a list
 
 Good subsections often include:
-- `### 真正贡献是什么`
-- `### 为什么结果成立`
-- `### 哪些地方容易被误读`
-- `### 训练目标`
-- `### 推理与采样链路`
-- `### 复杂度与扩展性`
+- `### 真正貢獻是什麼`
+- `### 為什麼結果成立`
+- `### 哪些地方容易被誤讀`
+- `### 訓練目標`
+- `### 推理與取樣鏈路`
+- `### 複雜度與擴充套件性`
 
-### 局限
+### 侷限
 
 Write real limitations, not polite filler.
 
@@ -202,7 +202,7 @@ Prefer:
 - missing baselines
 - unrealistic task framing
 
-### 我的笔记
+### 我的筆記
 
 Seed future follow-up with prompts such as:
 - one reusable idea
@@ -215,7 +215,7 @@ Seed future follow-up with prompts such as:
 When the paper has useful visuals:
 - preserve placeholders for the important ones
 - prioritize one method figure, one data/task figure, and one result figure or table
-- if a high-confidence pipeline or architecture figure clearly matches the core execution chain, place it in `### 机制流程` first
+- if a high-confidence pipeline or architecture figure clearly matches the core execution chain, place it in `### 機制流程` first
 - explain why each figure matters
 - keep original paper numbering such as `Fig. 1` or `Table 2`
 

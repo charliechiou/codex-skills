@@ -17,17 +17,17 @@ Priority order:
 
 ## Placement Logic
 
-- Put method overview figures in `### 机制流程` when they directly explain the core execution chain
-- If the match is weaker or the note does not need that micro-structure, keep them in `方法主线`
-- Put data or task figures in `数据与任务定义`
-- Put main result figures or tables in `关键结果`
-- Put conceptual diagrams in `研究问题` or `深度分析` if they clarify the argument
+- Put method overview figures in `### 機制流程` when they directly explain the core execution chain
+- If the match is weaker or the note does not need that micro-structure, keep them in `方法主線`
+- Put data or task figures in `資料與任務定義`
+- Put main result figures or tables in `關鍵結果`
+- Put conceptual diagrams in `研究問題` or `深度分析` if they clarify the argument
 
 ## What to Read
 
 Use:
 - figure captions
-- nearby正文对 figure 的引用
+- nearby正文對 figure 的引用
 - section context
 - candidate pages and candidate images from deterministic PDF asset extraction
 
@@ -60,7 +60,7 @@ Do not write that manual visual review found no reliable insertable candidate un
 If no manual inspection happened, name the state as an unresolved visual review requirement or an automatic script outcome, not as a reviewed visual defect.
 
 Keep missing-candidate cases separate from materialization failures:
-- if `source_image_path` is empty, `skip_reason` is `asset_candidate_missing`, or no independent matching crop exists, write `当前状态` as missing/unavailable candidate, not as copy/materialization blocked
+- if `source_image_path` is empty, `skip_reason` is `asset_candidate_missing`, or no independent matching crop exists, write `當前狀態` as missing/unavailable candidate, not as copy/materialization blocked
 - reserve `materialization blocked` only for a real chosen image asset that failed during `materialize_figure_asset.py`, final copy, permission, or `write_obsidian_note.py`
 - if a crop includes another Figure/Table caption or another figure body, treat it as a visual defect or missing independent candidate; do not call it usable just because it contains the target label
 
@@ -71,8 +71,8 @@ Do not use soft reasons such as keeping the note light, values already transcrib
 
 ## Integrated Placement Rule
 
-Every kept placeholder must be placed directly under the most relevant substantive section named by its `建议位置`.
-Do not collect unresolved placeholders into a catch-all section such as `剩余图表占位`, `未放置图表`, `Remaining figures`, or `Leftover figures`.
+Every kept placeholder must be placed directly under the most relevant substantive section named by its `建議位置`.
+Do not collect unresolved placeholders into a catch-all section such as `剩餘圖表佔位`, `未放置圖表`, `Remaining figures`, or `Leftover figures`.
 
 `reject_visual_quality` means the candidate image must not be inserted.
 It does not by itself require a final-note placeholder.
@@ -105,7 +105,7 @@ Reject candidates that are:
 
 Every kept placeholder in the final note must use the standard `[!figure]` callout format.
 This callout is only valid for figures or tables that remain placeholders.
-Do not use ordinary paragraph markers such as `[图表占位 | Fig. 1]`, `图表占位：Table 2`, or `Figure Placeholder | Fig. 3`.
+Do not use ordinary paragraph markers such as `[圖表佔位 | Fig. 1]`, `圖表佔位：Table 2`, or `Figure Placeholder | Fig. 3`.
 
 Each placeholder should include:
 - figure or table id
@@ -118,17 +118,17 @@ Each placeholder should include:
 Preferred final-note format:
 
 ```md
-> [!figure] Fig. 3 数据分布与质量评估
-> 建议位置：数据与任务定义
-> 放置原因：这张图同时展示样本构成、对话长度统计和专家质检结果，是理解数据边界最重要的图之一。
-> 当前状态：保留占位；当前提取结果只拿到局部子图，无法稳定恢复成可独立解释的完整原图。
+> [!figure] Fig. 3 資料分佈與品質評估
+> 建議位置：資料與任務定義
+> 放置原因：這張圖同時展示樣本構成、對話長度統計和專家品質檢查結果，是理解資料邊界最重要的圖之一。
+> 當前狀態：保留佔位；當前提取結果只拿到區域性子圖，無法穩定還原成可獨立解釋的完整原圖。
 ```
 
 The placeholder text should be stable and explicit:
-- `建议位置` says where the figure belongs in the note
+- `建議位置` says where the figure belongs in the note
 - `放置原因` says why the figure matters for understanding the paper
-- `当前状态` says why the note keeps this placeholder
-- `当前状态` must preserve truth over neatness; if extraction is uncertain, say so plainly
+- `當前狀態` says why the note keeps this placeholder
+- `當前狀態` must preserve truth over neatness; if extraction is uncertain, say so plainly
 
 If a real image is inserted:
 - keep the original paper identifier, for example `Fig. 2` or `Table 1`
@@ -142,7 +142,7 @@ Preferred final-note format for inserted real images:
 
 ```md
 ![[Research/Papers/DeepPaperNote/paper_slug/images/page_003_img_01.png]]
-*论文原图编号：Fig. 2。数据生成流程图。这里插入是因为它最能帮助理解方法主线。*
+*論文原圖編號：Fig. 2。資料產生流程圖。這裡插入是因為它最能幫助理解方法主線。*
 ```
 
 ## When to Skip

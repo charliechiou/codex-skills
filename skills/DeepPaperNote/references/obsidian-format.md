@@ -7,16 +7,16 @@
 - Use `###` only when a section genuinely needs internal structure.
 - Do not flatten everything into bullet points.
 - For method, system, benchmark, or clinical empirical papers, prefer meaningful `###` subheadings in technical sections instead of one long undifferentiated block.
-- For method, framework, or system papers, default to `### 机制流程` inside `方法主线` and write it as a numbered 3 to 4 step flow.
+- For method, framework, or system papers, default to `### 機制流程` inside `方法主線` and write it as a numbered 3 to 4 step flow.
 
 ## File Naming
 
 Default file name:
 - sanitized English title with underscores
 - default note layout is folder-per-paper:
-  - `<领域>/<paper_slug>/<paper_slug>.md`
-  - `<领域>/<paper_slug>/images/...`
-- when deciding `<领域>`, prefer matching an existing first-level domain folder under the user's papers directory
+  - `<領域>/<paper_slug>/<paper_slug>.md`
+  - `<領域>/<paper_slug>/images/...`
+- when deciding `<領域>`, prefer matching an existing first-level domain folder under the user's papers directory
 - domain routing uses the editable taxonomy in `references/domain_rules.yaml`: application domains are checked before fallback method domains
 - reuse existing first-level folders conservatively; method-only evidence should not force reuse of an unrelated application folder
 - only create a new domain folder when no existing domain is a reasonable fit
@@ -44,16 +44,16 @@ If the user already has a vault convention, preserve it.
 
 ## Core Info Block
 
-`## 核心信息` is a fixed metadata zone.
+`## 核心資訊` is a fixed metadata zone.
 
 Formatting and scope rules:
 - Core info field schema: use only the following fields, in this order, and no free prose:
-  `标题`, `标题翻译`, `作者`, `机构`, `发表时间`, `发表渠道`, `DOI`, `arXiv`, `论文链接`, `代码 / 项目`, `数据 / 资源`, `论文类型`
-- keep each entry in `- 字段名: 值` form
+  `標題`, `標題翻譯`, `作者`, `機構`, `發表時間`, `發表管道`, `DOI`, `arXiv`, `論文連結`, `程式碼 / 專案`, `資料 / 資源`, `論文型別`
+- keep each entry in `- 欄位名: 值` form
 - omit fields that are unavailable or not applicable; do not add placeholder rows just to fill the schema
-- do not add interpretation, commentary, judgment, or takeaway lines inside `核心信息`
+- do not add interpretation, commentary, judgment, or takeaway lines inside `核心資訊`
 - do not use the last metadata bullet as a place to append extra analysis
-- move explanatory content to `一句话总结`、`深度分析`、`我的笔记` or another true analysis section
+- move explanatory content to `一句話總結`、`深度分析`、`我的筆記` or another true analysis section
 
 ## YAML Frontmatter
 
@@ -88,22 +88,22 @@ Rules:
 Use this callout format only for placeholders that remain unresolved in the final note:
 
 ```md
-> [!figure] Fig. 3 数据分布与质量评估
-> 建议位置：数据与任务定义
-> 放置原因：这张图同时展示样本构成、对话长度统计和专家质检结果，是理解 `PsyInterview` 数据边界最重要的图之一。
-> 当前状态：保留占位；当前提取结果只拿到局部子图，无法稳定恢复成可独立解释的完整原图。
+> [!figure] Fig. 3 資料分佈與品質評估
+> 建議位置：資料與任務定義
+> 放置原因：這張圖同時展示樣本構成、對話長度統計和專家品質檢查結果，是理解 `PsyInterview` 資料邊界最重要的圖之一。
+> 當前狀態：保留佔位；當前提取結果只拿到區域性子圖，無法穩定還原成可獨立解釋的完整原圖。
 ```
 
 Formatting rules:
 - keep the original paper numbering, for example `Fig. 3` or `Table 2`
 - keep a short human-readable label on the first line
-- always include `建议位置`
+- always include `建議位置`
 - always include `放置原因`
-- always include `当前状态`
+- always include `當前狀態`
 
-`当前状态` should be explicit, for example:
-- `保留占位；未找到高置信度整图。`
-- `保留占位；当前只匹配到疑似局部子图，不足以稳定替换。`
+`當前狀態` should be explicit, for example:
+- `保留佔位；未找到高置信度整圖。`
+- `保留佔位；當前只匹配到疑似區域性子圖，不足以穩定替換。`
 
 The structured `[FIGURE_PLACEHOLDER] ... [/FIGURE_PLACEHOLDER]` block is legacy/internal only.
 Do not use it in the final user-facing note unless you are debugging the pipeline.
@@ -114,33 +114,33 @@ The embed must be followed immediately by exactly one italic caption line:
 
 ```md
 ![[Research/Papers/DeepPaperNote/paper_slug/images/page_003_img_01.png]]
-*论文原图编号：Fig. 2。数据生成流程图。这里插入是因为它最能帮助理解方法主线。*
+*論文原圖編號：Fig. 2。資料產生流程圖。這裡插入是因為它最能幫助理解方法主線。*
 ```
 
 ## Default Section Order
 
-1. `核心信息`
-2. `原文摘要翻译`
-3. `创新点`
-4. `一句话总结`
-5. `研究问题`
-6. `数据与任务定义`
-7. `方法主线`
-8. `关键结果`
+1. `核心資訊`
+2. `原文摘要翻譯`
+3. `創新點`
+4. `一句話總結`
+5. `研究問題`
+6. `資料與任務定義`
+7. `方法主線`
+8. `關鍵結果`
 9. `深度分析`
-10. `局限`
-11. `我的笔记`
+10. `侷限`
+11. `我的筆記`
 12. `引用`
 
-When abstract metadata exists, `原文摘要翻译` should be a single Chinese translation block for the original abstract rather than a bilingual subsection pair.
+When abstract metadata exists, `原文摘要翻譯` should be a single Chinese translation block for the original abstract rather than a bilingual subsection pair.
 
 This order is the stable backbone, not a full outline.
 When the paper is complex, add `###` subsections such as:
-- `### 数据来源`
-- `### 任务定义`
-- `### 机制流程`
-- `### 为什么结果成立`
-- `### 哪些地方容易被误读`
+- `### 資料來源`
+- `### 任務定義`
+- `### 機制流程`
+- `### 為什麼結果成立`
+- `### 哪些地方容易被誤讀`
 
 ## 引用 Section Format
 

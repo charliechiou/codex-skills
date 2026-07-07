@@ -4,7 +4,7 @@
 
 **Turn a complex paper into an Obsidian note you will actually want to keep.**
 
-[English](./README.md) | [简体中文](./README.zh-CN.md)
+[English](./README.md) | [簡體中文](./README.zh-CN.md)
 
 [![Homepage](https://img.shields.io/badge/homepage-online-2563eb)](https://917dhj.github.io/DeepPaperNote/)
 [![Status](https://img.shields.io/badge/status-stable-16a34a)](https://github.com/917Dhj/DeepPaperNote)
@@ -165,7 +165,7 @@ Typical prompts:
 - `Read this PDF and produce a Markdown note with figure context`
 - `Use DeepPaperNote on this paper: 10.48550/arXiv.1706.03762`
 
-By default, DeepPaperNote writes the note in **Chinese**. At the moment, Chinese is the only note language that can fully benefit from the skill's current writing and linting rules. If you need English notes, please stay tuned for a future update.
+By default, DeepPaperNote writes the note in **Traditional Chinese with Taiwan wording**. At the moment, Traditional Chinese is the only note language that can fully benefit from the skill's current writing and linting rules. If you need English notes, please stay tuned for a future update.
 
 By default, DeepPaperNote will:
 
@@ -188,8 +188,8 @@ python3 -m pip install -e '.[dev]'
 If you want to check the environment first, you can also ask the agent with short requests such as:
 
 - `Please check whether DeepPaperNote is ready on this machine`
-- `查看 deeppapernote 的可用情况`
-- `deeppapernote 有什么功能`
+- `檢視 deeppapernote 的可用情況`
+- `deeppapernote 有什麼功能`
 
 ## 🔧 Configuration (works out of the box, improves with setup)
 

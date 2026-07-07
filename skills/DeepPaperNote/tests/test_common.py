@@ -116,10 +116,10 @@ def test_normalize_pdf_text_artifacts_expands_ligatures() -> None:
 
 def test_match_section_heading_supports_chinese_and_nonstandard_english_headings() -> None:
     assert match_section_heading("一、摘要") == "abstract"
-    assert match_section_heading("2 材料与方法") == "method"
-    assert match_section_heading("3. 实验结果") == "experiment"
-    assert match_section_heading("4 结论") == "conclusion"
-    assert match_section_heading("参考文献") == "stop"
+    assert match_section_heading("2 材料與方法") == "method"
+    assert match_section_heading("3. 實驗結果") == "experiment"
+    assert match_section_heading("4 結論") == "conclusion"
+    assert match_section_heading("參考文獻") == "stop"
     assert match_section_heading("Findings") == "experiment"
     assert match_section_heading("Materials and Methods") == "method"
     assert match_section_heading("Study Design") == "method"
@@ -129,9 +129,9 @@ def test_match_section_heading_supports_chinese_and_nonstandard_english_headings
 def test_extract_caption_lines_supports_chinese_figure_and_table_labels() -> None:
     text = "\n".join(
         [
-            "图 1：总体框架。",
-            "图2 | 消融实验流程",
-            "表 1 实验结果",
+            "圖 1：總體框架。",
+            "圖2 | 消融實驗流程",
+            "表 1 實驗結果",
             "Table 2. English baseline",
         ]
     )
@@ -140,11 +140,11 @@ def test_extract_caption_lines_supports_chinese_figure_and_table_labels() -> Non
     table_captions = extract_caption_lines(text, "table")
 
     assert figure_captions[:2] == [
-        {"id": "图 1", "caption": "总体框架。"},
-        {"id": "图 2", "caption": "消融实验流程"},
+        {"id": "圖 1", "caption": "總體框架。"},
+        {"id": "圖 2", "caption": "消融實驗流程"},
     ]
     assert table_captions[:2] == [
-        {"id": "表 1", "caption": "实验结果"},
+        {"id": "表 1", "caption": "實驗結果"},
         {"id": "Table 2", "caption": "English baseline"},
     ]
 
@@ -221,14 +221,14 @@ def test_extract_pdf_sections_supports_chinese_headings(tmp_path: Path, monkeypa
             "\n".join(
                 [
                     "摘要",
-                    "本文提出一个证据优先的阅读流程。",
+                    "本文提出一個證據優先的閱讀流程。",
                     "1 引言",
-                    "现有方法容易过度总结。",
-                    "2 材料与方法",
-                    "我们构建了一个分阶段处理管线。",
-                    "3 实验结果",
-                    "该方法在三个数据集上提升明显。",
-                    "参考文献",
+                    "現有方法容易過度總結。",
+                    "2 材料與方法",
+                    "我們建構了一個分階段處理管線。",
+                    "3 實驗結果",
+                    "該方法在三個資料集上提升明顯。",
+                    "參考文獻",
                     "[1] Ignored reference.",
                 ]
             )
@@ -238,10 +238,10 @@ def test_extract_pdf_sections_supports_chinese_headings(tmp_path: Path, monkeypa
 
     sections = extract_pdf_sections(pdf_path)
 
-    assert sections["abstract"] == "本文提出一个证据优先的阅读流程。"
-    assert sections["introduction"] == "现有方法容易过度总结。"
-    assert sections["method"] == "我们构建了一个分阶段处理管线。"
-    assert sections["experiment"] == "该方法在三个数据集上提升明显。"
+    assert sections["abstract"] == "本文提出一個證據優先的閱讀流程。"
+    assert sections["introduction"] == "現有方法容易過度總結。"
+    assert sections["method"] == "我們建構了一個分階段處理管線。"
+    assert sections["experiment"] == "該方法在三個資料集上提升明顯。"
     assert "conclusion" not in sections
 
 
@@ -513,7 +513,7 @@ def test_infer_domain_label_routes_clinical_llm_paper_to_application_domain() ->
         "Using a fine-tuned large language model for symptom-based depression evaluation",
         "We study clinical depression screening with patients and psychological symptom scales.",
     )
-    assert label == "医疗健康"
+    assert label == "醫療健康"
 
 
 def test_infer_domain_label_prefers_application_domain_for_legal_rag() -> None:
@@ -535,7 +535,7 @@ def test_infer_domain_label_uses_method_fallback_for_moe_algorithm() -> None:
 def test_infer_domain_label_defaults_generic_ai_method_to_machine_learning() -> None:
     assert (
         infer_domain_label("A new optimization algorithm", "We improve model training.")
-        == "机器学习"
+        == "機器學習"
     )
 
 
@@ -564,7 +564,7 @@ def test_resolve_domain_subdir_reuses_specialized_existing_folder(tmp_path: Path
             "and mental health outcomes."
         ),
     )
-    assert label == "医疗健康"
+    assert label == "醫療健康"
     assert resolved == "心理健康"
 
 
@@ -586,7 +586,7 @@ def test_resolve_domain_subdir_keeps_robotics_ahead_of_method_folder(tmp_path: P
             "from demonstrations."
         ),
     )
-    assert resolved == "机器人"
+    assert resolved == "機器人"
 
 
 def test_method_only_evidence_does_not_reuse_unrelated_application_folder(tmp_path: Path) -> None:
@@ -619,9 +619,9 @@ def test_incidental_application_keyword_does_not_reuse_unrelated_folder(tmp_path
     title = "Large language models for depression screening"
     abstract = "A clinical patient study mentions risk factors and symptom screening."
 
-    assert infer_domain_label(title, abstract) == "医疗健康"
-    assert domain_name_score("金融", "医疗健康", title, abstract) == 0
-    assert resolve_domain_subdir(config, title=title, abstract=abstract) == "医疗健康"
+    assert infer_domain_label(title, abstract) == "醫療健康"
+    assert domain_name_score("金融", "醫療健康", title, abstract) == 0
+    assert resolve_domain_subdir(config, title=title, abstract=abstract) == "醫療健康"
 
 
 @pytest.mark.parametrize(
@@ -692,7 +692,7 @@ def test_domain_rules_are_loaded_from_user_editable_yaml(tmp_path: Path, monkeyp
     rules_path.write_text(
         """
 domains:
-  - label: 天文学
+  - label: 天文學
     aliases:
       - astronomy
     keywords:
@@ -701,7 +701,7 @@ domains:
     methods:
       - transformer
 fallback_domains:
-  - label: 机器学习
+  - label: 機器學習
     aliases:
       - machine learning
     keywords:
@@ -712,14 +712,14 @@ fallback_domains:
     )
     monkeypatch.setattr(common, "DOMAIN_RULES_PATH", rules_path)
 
-    assert infer_domain_label("Transformer analysis for galaxy survey data") == "天文学"
+    assert infer_domain_label("Transformer analysis for galaxy survey data") == "天文學"
 
 
 def test_domain_rules_missing_or_invalid_falls_back(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(common, "DOMAIN_RULES_PATH", tmp_path / "missing.yaml")
     assert (
         infer_domain_label("Diffusion Policy for Robot Manipulation", "robotic control")
-        == "机器人"
+        == "機器人"
     )
 
     invalid_path = tmp_path / "invalid.yaml"
@@ -727,7 +727,7 @@ def test_domain_rules_missing_or_invalid_falls_back(tmp_path: Path, monkeypatch)
     monkeypatch.setattr(common, "DOMAIN_RULES_PATH", invalid_path)
     assert (
         infer_domain_label("Diffusion Policy for Robot Manipulation", "robotic control")
-        == "机器人"
+        == "機器人"
     )
 
 

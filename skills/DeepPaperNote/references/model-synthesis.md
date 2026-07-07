@@ -41,8 +41,8 @@ For normal runs, `SKILL.md` plus the generated `synthesis_bundle.json` is the re
    Do this before drafting from the plan.
    Old broad references such as `synthesis_bundle.evidence.method_evidence` are invalid.
 
-5. Draft the note in Chinese from the bundle, raw source records, and the explicit plan.
-   The model must decide emphasis, contribution, mechanism, limitations, formula needs, figure semantics, and natural Chinese phrasing.
+5. Draft the note in Traditional Chinese with Taiwan wording from the bundle, raw source records, and the explicit plan.
+   The model must decide emphasis, contribution, mechanism, limitations, formula needs, figure semantics, and natural Traditional Chinese phrasing.
    Do not copy the bundle mechanically or treat script heuristics as conclusions.
 
 6. Finish the figure decision inside the same task.
@@ -61,7 +61,7 @@ For normal runs, `SKILL.md` plus the generated `synthesis_bundle.json` is the re
 
 9. After `final_quality_review` passes, perform `final_readability_review`.
    This is a required full-note reread for language and expression only.
-   It may smooth awkward prose, remove stiff translations, and rewrite ordinary English phrase leftovers into natural Chinese.
+   It may smooth awkward prose, remove stiff translations, and rewrite ordinary English phrase leftovers into natural Traditional Chinese with Taiwan wording.
    It must not invent facts, change core numbers, or flatten the note into a safer but shallower summary.
    If either final review edits the note, rerun lint.
 
@@ -93,9 +93,9 @@ The plan should state which sections need depth, which claims are supported by w
 ## Completion Language
 
 Use completion language precisely:
-- say `已生成草稿` when drafting is done but lint, readability review, or save is still pending
-- say `已通过校验` only when lint actually ran and passed
-- say `已保存到 Obsidian` only when the formal write step actually succeeded
-- say `笔记已完成` only when the required workflow is actually complete
+- say `已產生草稿` when drafting is done but lint, readability review, or save is still pending
+- say `已透過校驗` only when lint actually ran and passed
+- say `已儲存到 Obsidian` only when the formal write step actually succeeded
+- say `筆記已完成` only when the required workflow is actually complete
 
 Do not treat temporary Markdown files, partial figure work, or incomplete downstream stages as equivalent to a finished DeepPaperNote run.

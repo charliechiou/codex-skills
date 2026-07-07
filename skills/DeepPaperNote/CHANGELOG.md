@@ -144,11 +144,11 @@ Third public alpha release of DeepPaperNote.
 
 ### Changed
 
-- Added a dedicated `创新点` section near the front of the note and strengthened the front-matter contract.
-- Added explicit `### 机制流程` guidance for method and system papers so the execution chain is reconstructed more clearly.
+- Added a dedicated `創新點` section near the front of the note and strengthened the front-matter contract.
+- Added explicit `### 機制流程` guidance for method and system papers so the execution chain is reconstructed more clearly.
 - Strengthened ablation handling so notes are more likely to capture failed settings, weaker variants, and trade-offs rather than only best-case results.
-- Renamed the opening abstract block to `原文摘要翻译` and tightened the contract so it is treated as a Chinese translation of the original abstract rather than a newly written summary.
-- Tightened the `核心信息` block into a fixed metadata zone and explicitly forbade analysis or judgment from leaking into it.
+- Renamed the opening abstract block to `原文摘要翻譯` and tightened the contract so it is treated as a Chinese translation of the original abstract rather than a newly written summary.
+- Tightened the `核心資訊` block into a fixed metadata zone and explicitly forbade analysis or judgment from leaking into it.
 - Added a required `final_readability_review` stage after script lint to improve fluency, remove stiff phrasing, and reduce unnecessary English leftovers.
 - Added a dedicated math syntax gate to catch common Obsidian / MathJax rendering failures before final save.
 - Strengthened the overall workflow contract so the model is less likely to silently skip required stages, downgrade output behavior, or claim completion too early.
