@@ -5,11 +5,9 @@ This skill is a single-paper production pipeline.
 The pipeline below describes the reusable core workflow plus the model-side handoff expected by any platform adapter.
 
 When the current environment exposes local bibliography tooling, run a local-library-first preflight before the deterministic pipeline:
-- search the local Zotero library by title, DOI, or arXiv id
-- if there is a confident local hit, materialize a JSON input record from that trusted metadata
-- inspect child attachments and prefer a local Zotero attachment path if one is available
-- if the integration does not expose the local path, use the attachment key and filename to locate it in common Zotero `storage/` roots
-- only fall back to title-based web resolution when the local library does not resolve the paper
+- accept the local PDF path from the user as the canonical identity anchor
+- do not require Zotero or web metadata resolution in the normal path
+- derive identity, venue, year, and author metadata from the PDF itself first
 
 For convenience, MVP also includes a runner script that executes the deterministic stages sequentially:
 - `scripts/run_pipeline.py`
@@ -30,9 +28,9 @@ For a normal single-paper note request, the pipeline below is a required executi
 
 ## Pipeline
 
-1. `resolve_paper`
-   Normalize the user input into one paper identity.
-   Accepted inputs: title, DOI, URL, arXiv ID, local PDF path, Zotero item key.
+1. local PDF intake
+   Treat the user-provided local PDF path as the canonical paper identity.
+   Accepted input in the normal path: local PDF path. Other inputs are secondary compatibility modes, not the default workflow.
    If the input is already a trusted JSON record from local-library resolution, prefer that over a fresh title search.
    Completion condition:
    - one canonical paper identity is selected
@@ -60,20 +58,12 @@ For a normal single-paper note request, the pipeline below is a required executi
    - continue only with an explicitly partial metadata record
    - do not pretend metadata collection happened if no canonical record was produced
 
-3. `fetch_pdf`
-   Acquire the best available PDF.
-   Preferred order:
-   - local PDF
-   - Zotero attachment
-   - metadata `pdf_url`
-   - direct PDF URL supplied by the user
-   - arXiv or open-access PDF
-   - publisher PDF if accessible
-   - DOI enrichment and other currently supported acquisition paths
+3. local PDF validation
+   Confirm that the local PDF exists and is readable.
    Completion condition:
-   - a usable PDF is available for downstream extraction
+   - a usable local PDF is available for downstream extraction
    Allowed on failure:
-   - stop and report which acquisition paths were tried and what input is needed
+   - stop and report that the local PDF is missing or unreadable
    - do not continue as a degraded, provisional, abstract-only, or full-text-substitute note when no usable PDF exists
 
 4. `extract_source_text`
@@ -108,8 +98,8 @@ For a normal single-paper note request, the pipeline below is a required executi
    - continue with placeholder-first figure handling only if the failure is surfaced honestly
    - do not silently skip this stage and then talk as if figure handling were complete
 
-7. `plan_figures`
-   Build a figure inventory and plan placeholders for all major figures/tables that matter to the note.
+6. `plan_figures`
+   Build a figure inventory and plan placeholders for all major figures/tables/algorithms that matter to the note.
    Placeholder-first rule:
    - preserve the important figure/table structure even if images are missing
    - only replace a placeholder when a real extracted image matches it with enough confidence
@@ -123,7 +113,7 @@ For a normal single-paper note request, the pipeline below is a required executi
 8. `plan_figure_table_decisions`
    Build a decision row for every detected figure/table caption.
    Each item should have one explicit state: `insert`, `placeholder`, `low_priority`, `visual_defect`, or `skip` with reason.
-   Planned usable figure/table crops with real image paths should be marked `insert`; this is still a final-save obligation, not a pipeline-time vault write.
+   Planned usable figure/table crops with real image paths should be marked `insert`; this is still a final-save obligation, not a pipeline-time note write.
    Completion condition:
    - every major detected figure/table has a recorded decision or skip reason
 
@@ -184,7 +174,7 @@ For a normal single-paper note request, the pipeline below is a required executi
 
 13. `lint_note`
    Check structure, heading levels, missing sections, weak analysis, and mixed-language prose.
-   If the refined note still contains half-English half-Chinese lines or inconsistent Traditional/Simplified Chinese locale mixing, fail closed before vault write.
+   If the refined note still contains half-English half-Chinese lines or inconsistent Traditional/Simplified Chinese locale mixing, fail closed before final write.
    Completion condition:
    - lint has actually run and produced a result
    Allowed on failure:
@@ -227,38 +217,22 @@ For a normal single-paper note request, the pipeline below is a required executi
    - do not treat lint already passed as permission to skip this stage
    - do not invent new facts or change core numbers and conclusions under the name of polish
 
-16. `write_obsidian_note`
-   Save the final Markdown into the target vault.
-   First decide the save mode explicitly:
-    - if no Obsidian vault is configured, workspace mode is allowed
-    - if an Obsidian vault is configured, vault mode is required
-    - do not reinterpret "vault configured but not currently writable" as a workspace-fallback case
-    Resolve a domain folder before writing:
-    - prefer an existing first-level domain folder when there is a reasonable match
-    - use `references/domain_rules.yaml` for application-first domain routing, with fallback method domains only when no application domain fits
-    - keep existing-folder reuse conservative; method-only evidence is not enough to force reuse of an unrelated application folder
-    - create a new domain only when no existing domain fits well
-    - do not save directly into the bare papers root
+16. final local write
+   Save the final Markdown into the current workspace.
+   Default flat layout:
+    - `raw/<note>.md`
+    - `raw/<note>.plan.json`
+    - `img/<note>/...`
    Complete the figure decision before this step:
     - replace usable matched placeholders with real images
-    - keep lower-confidence, missing, contaminated, or blocked items as placeholders
-    - pass the figure decision table to `write_obsidian_note.py --figure-decisions ...` so `insert` rows are copied into the paper-local `images/` folder and must be referenced by the final Markdown
+    - keep lower-confidence, missing, contaminated, or blocked items as placeholders only after direct PDF recropping was attempted when the source page was known
+    - ensure every inserted image is referenced by the final Markdown through `../img/<note>/<filename>`
     - do not split text writing and figure handling into two separate user turns by default
-    If the configured vault or its paper-local `images/` directory cannot currently be written:
-    - immediately ask the user for permission escalation
-    - do not silently change the output target to the workspace
-    - do not silently skip `images/` directory creation
-    If the user refuses permission escalation:
-    - stop the formal save flow and report that the Obsidian write did not complete
-    - do not save to the workspace unless the user is asked again and explicitly approves that fallback
-    Default vault layout:
-    - one folder per paper
-    - the note Markdown inside that folder
-    - an `images/` subfolder for materialized figure assets, created even when it stays empty
-    Do not claim the note is already saved to Obsidian if the vault write or `images/` directory creation never actually happened.
-    Completion condition:
-    - the note is actually written to the chosen target, and required paper-local layout is materialized
-    Allowed on failure:
+   Completion condition:
+    - the note is actually written to `raw/`
+    - required image assets are actually written to `img/<note>/`
+    - every Markdown image link resolves to a real local file
+   Allowed on failure:
     - report the write step as incomplete
     - do not present ready-to-write or temporary-file-exists as a successful save
 
@@ -346,7 +320,7 @@ Suggested keys:
 
 `coverage` should include source coverage, PDF/asset coverage, extraction failures, and truncation warnings. It should not hide source truncation behind a normal-looking full-read bundle.
 
-`references.candidates` contains model-facing candidates extracted from the paper's references section. Each candidate may include a confirmed `wikilink` when an existing vault note matched by basename or alias; otherwise use `display_text` as the plain-text fallback.
+`references.candidates` contains model-facing candidates extracted from the paper's references section. Use them to support `研究問題` background writing and to record important prior papers in plain text when no local note-linking system is in use.
 
 ### `note_plan`
 
@@ -391,3 +365,12 @@ Keep the core workflow portable:
 - the data contracts should remain useful outside any one agent runtime
 - the scripts should not depend on platform-specific message formatting
 - platform-specific behavior belongs in the adapter layer
+
+
+### Research problem requirement
+
+Under `研究問題`, the final note must:
+- summarize the current research landscape rather than jumping directly to this paper
+- identify the main prior route(s) or representative baselines
+- explain the gap or limitation that motivates the current paper
+- record 2 to 5 important reference papers with author/year, one-line idea summary, and relation to the current paper

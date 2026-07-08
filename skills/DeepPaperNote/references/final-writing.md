@@ -13,7 +13,7 @@ Then let the model draft the final note in natural language.
 
 ## Front-Matter Structure
 
-Every final note must start with an Obsidian YAML properties block above the `#` title heading.
+Every final note must start with a YAML properties block above the `#` title heading.
 Include at least:
 - `tags`: a `papers/<domain>` hierarchy tag
 - `aliases`: a short English name, acronym, or stable title alias useful for wikilinks
@@ -123,7 +123,7 @@ If a paper is short, do not make the final note shallow; use the saved space to 
 The final Traditional Chinese note must also pass a language-cleanliness check:
 - no half-English half-Chinese prose lines
 - English is allowed only for stable proper nouns or citation metadata
-- if the style gate fails, do not write the note into Obsidian yet
+- if the style gate fails, do not write the note into the final workspace output yet
 - do not write for the linter; lint is only a minimum floor, not the writing objective
 - after script lint passes, `final_quality_review` and then `final_readability_review` are still required before the note should be treated as polished and ready to save
 
@@ -204,7 +204,7 @@ Use formulas sparingly and purposefully:
 - if the source extraction is noisy, prefer reconstructing a small, stable core formula rather than copying broken math verbatim
 - after each retained formula, add one sentence explaining what it corresponds to in engineering or code terms
 - do not only translate variable names; explain the concrete operation, loss term, update rule, or control effect
-- formulas in the final Markdown should be written as directly renderable Obsidian/MathJax math, not as JSON-style escaped strings
+- formulas in the final Markdown should be written as directly renderable Markdown/MathJax math, not as JSON-style escaped strings
 - do not double-escape TeX commands such as `\\tau`, `\\frac`, `\\bar`, `\\begin`, or `\\end` when the final note should contain `\tau`, `\frac`, `\bar`, `\begin`, or `\end`
 - use real math delimiters:
   - inline math: `$...$`
@@ -254,9 +254,9 @@ Final-note figure rules:
 - keep the original paper numbering, such as `Fig. 1`, `Fig. 3`, `Table 2`
 - do not rename them to `圖 1`, `圖 2` just because of note order
 - if you replace a placeholder with a real image, keep the same paper figure id in the caption
-- if you replace a placeholder with a real image, use the `relative_markdown_embed` from `figure_table_decisions.json`; let `write_obsidian_note.py --figure-decisions ...` copy the image during final save
+- if you replace a placeholder with a real image, use the `relative_markdown_embed` from `figure_table_decisions.json`; let `write_note_output.py --figure-decisions ...` copy the image during final save
 - if you replace a placeholder with a real image, render only the embed plus one italic caption line; do not keep a redundant `[!figure]` callout for that same figure
-- if `figure_table_decisions.json` marks an item as `insert`, the final note must reference its `images/<filename>` path and `write_obsidian_note.py` must be run with `--figure-decisions ...`
+- if `figure_table_decisions.json` marks an item as `insert`, the final note must reference its `images/<filename>` path and `write_note_output.py` must be run with `--figure-decisions ...`
 - if an important figure cannot be confidently extracted, keep a placeholder with a short explanation
 - every kept placeholder must appear directly under its most relevant analytical section; do not create catch-all sections such as `剩餘圖表佔位`, `未放置圖表`, `Remaining figures`, or `Leftover figures`
 - every kept placeholder must use the standard `[!figure]` callout format; never use ordinary paragraph markers such as `[圖表佔位 | Fig. 1]`, `圖表佔位：Table 2`, or `Figure Placeholder | Fig. 3`
@@ -307,3 +307,16 @@ This review is a language-and-expression pass, not a second evidence-judgment pa
 - do not use polish as an excuse to flatten the note into a safer but shallower summary
 
 If the answer to the first four quality-review questions is `no`, the draft is still too shallow and should be revised before save.
+
+
+## Research problem background
+
+In `研究問題`, do not only state what the current paper solves. Also include:
+- `### 現有研究脈絡`
+- `### 既有方法的缺口`
+- `### 本文要解的核心問題`
+
+For papers with meaningful prior-work positioning, record 2 to 5 important reference papers. Each reference should state:
+- authors and year
+- one-sentence method or claim summary
+- why this paper matters to the current paper

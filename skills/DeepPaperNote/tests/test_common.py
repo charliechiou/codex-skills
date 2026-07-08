@@ -34,7 +34,7 @@ from common import (
     resolve_reference,
     resolve_domain_subdir,
     resolve_note_output_mode,
-    resolve_obsidian_note_path,
+    resolve_note_output_path,
     semantic_scholar_headers,
 )
 
@@ -392,18 +392,18 @@ def test_runtime_config_ignores_read_arxiv_obsidian_vault(tmp_path: Path, monkey
     assert root == tmp_path / "DeepPaperNote_output"
 
 
-def test_resolve_obsidian_note_path_in_workspace_mode(tmp_path: Path, monkeypatch) -> None:
+def test_resolve_note_output_path_in_workspace_mode(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.chdir(tmp_path)
     config = {
         "obsidian_vault": "",
         "workspace_output_dir": "DeepPaperNote_output",
         "papers_dir": "Research/Papers",
     }
-    path = resolve_obsidian_note_path(config, title="My Test Paper")
+    path = resolve_note_output_path(config, title="My Test Paper")
     assert path == tmp_path / "DeepPaperNote_output" / "My_Test_Paper" / "My_Test_Paper.md"
 
 
-def test_resolve_obsidian_note_path_in_vault_mode(tmp_path: Path) -> None:
+def test_resolve_note_output_path_in_configured_root_mode(tmp_path: Path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     config = {
@@ -411,11 +411,11 @@ def test_resolve_obsidian_note_path_in_vault_mode(tmp_path: Path) -> None:
         "papers_dir": "Research/Papers",
         "workspace_output_dir": "DeepPaperNote_output",
     }
-    path = resolve_obsidian_note_path(config, title="My Test Paper", subdir="心理健康")
+    path = resolve_note_output_path(config, title="My Test Paper", subdir="心理健康")
     assert path == vault / "Research/Papers" / "心理健康" / "My_Test_Paper" / "My_Test_Paper.md"
 
 
-def test_resolve_obsidian_note_path_avoids_double_slug_when_subdir_already_contains_slug(tmp_path: Path) -> None:
+def test_resolve_note_output_path_avoids_double_slug_when_subdir_already_contains_slug(tmp_path: Path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     config = {
@@ -423,7 +423,7 @@ def test_resolve_obsidian_note_path_avoids_double_slug_when_subdir_already_conta
         "papers_dir": "Research/Papers",
         "workspace_output_dir": "DeepPaperNote_output",
     }
-    path = resolve_obsidian_note_path(
+    path = resolve_note_output_path(
         config,
         title="My Test Paper",
         subdir="心理健康/My_Test_Paper",
@@ -431,7 +431,7 @@ def test_resolve_obsidian_note_path_avoids_double_slug_when_subdir_already_conta
     assert path == vault / "Research/Papers" / "心理健康" / "My_Test_Paper" / "My_Test_Paper.md"
 
 
-def test_resolve_obsidian_note_path_avoids_double_slug_when_subdir_is_papers_relative_path(tmp_path: Path) -> None:
+def test_resolve_note_output_path_avoids_double_slug_when_subdir_is_papers_relative_path(tmp_path: Path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     config = {
@@ -439,7 +439,7 @@ def test_resolve_obsidian_note_path_avoids_double_slug_when_subdir_is_papers_rel
         "papers_dir": "Research/Papers",
         "workspace_output_dir": "DeepPaperNote_output",
     }
-    path = resolve_obsidian_note_path(
+    path = resolve_note_output_path(
         config,
         title="My Test Paper",
         subdir="Research/Papers/心理健康/My_Test_Paper",
@@ -447,7 +447,7 @@ def test_resolve_obsidian_note_path_avoids_double_slug_when_subdir_is_papers_rel
     assert path == vault / "Research/Papers" / "心理健康" / "My_Test_Paper" / "My_Test_Paper.md"
 
 
-def test_resolve_obsidian_note_path_avoids_double_folder_when_subdir_is_title_slug_but_filename_is_readable(tmp_path: Path) -> None:
+def test_resolve_note_output_path_avoids_double_folder_when_subdir_is_title_slug_but_filename_is_readable(tmp_path: Path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     config = {
@@ -455,7 +455,7 @@ def test_resolve_obsidian_note_path_avoids_double_folder_when_subdir_is_title_sl
         "papers_dir": "Research/Papers",
         "workspace_output_dir": "DeepPaperNote_output",
     }
-    path = resolve_obsidian_note_path(
+    path = resolve_note_output_path(
         config,
         title="SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
         subdir="Research/Papers/Benchmark/SWE_bench_Can_Language_Models_Resolve_Real_World_GitHub_Issues",

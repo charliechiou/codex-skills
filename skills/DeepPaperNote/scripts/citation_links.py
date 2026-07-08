@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Best-effort reference extraction and Obsidian note matching helpers."""
+"""Best-effort reference extraction and local note matching helpers."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from common import configured_obsidian_vault, extract_arxiv_id, extract_doi, fitz, normalize_whitespace
+from common import configured_notes_root, extract_arxiv_id, extract_doi, fitz, normalize_whitespace
 
 
 NUMBERED_REF_RE = re.compile(r"^(?:\[(\d{1,4})\]|(\d{1,4})\.)\s+(.+)$")
@@ -25,8 +25,9 @@ def _empty_candidate(raw_text: str, page_hint: str = "") -> dict[str, Any]:
         "doi": extract_doi(raw_text) or "",
         "arxiv_id": extract_arxiv_id(raw_text) or "",
         "wikilink": "",
+        "note_target": "",
         "vault_target": "",
-        "match_status": "no_vault_match",
+        "match_status": "no_local_note_match",
         "match_reason": "none",
     }
 
@@ -291,28 +292,28 @@ def _note_wikilink(target: str, display_text: str) -> str:
     return f"[[{target}]]"
 
 
-def build_vault_note_index(config: dict[str, Any]) -> dict[str, Any]:
+def build_note_index(config: dict[str, Any]) -> dict[str, Any]:
     """Build a limited note index under the configured papers directory."""
     try:
-        vault_path = configured_obsidian_vault(config)
+        notes_root = configured_notes_root(config)
     except Exception:
-        return {"status": "vault_unavailable", "notes": []}
-    if vault_path is None:
-        return {"status": "vault_unavailable", "notes": []}
+        return {"status": "notes_root_unavailable", "notes": []}
+    if notes_root is None:
+        return {"status": "notes_root_unavailable", "notes": []}
 
     papers_dir = str(config.get("papers_dir", "Research/Papers")).strip() or "Research/Papers"
-    base_dir = (vault_path / Path(papers_dir)).resolve()
+    base_dir = (notes_root / Path(papers_dir)).resolve()
     try:
-        base_dir.relative_to(vault_path)
+        base_dir.relative_to(notes_root)
     except ValueError:
-        return {"status": "vault_unavailable", "notes": []}
+        return {"status": "notes_root_unavailable", "notes": []}
     if not base_dir.exists() or not base_dir.is_dir():
-        return {"status": "vault_unavailable", "notes": []}
+        return {"status": "notes_root_unavailable", "notes": []}
 
     notes: list[dict[str, Any]] = []
     for path in sorted(base_dir.glob("**/*.md")):
         try:
-            relative_path = path.relative_to(vault_path)
+            relative_path = path.relative_to(notes_root)
         except ValueError:
             continue
         try:
@@ -343,6 +344,8 @@ def build_vault_note_index(config: dict[str, Any]) -> dict[str, Any]:
                 "arxiv_id": arxiv_id,
                 "arxiv_ids": sorted(normalized_arxiv_ids),
                 "text_keys": [],
+                "note_target": path.stem,
+                "note_relative_path": str(relative_path),
                 "vault_target": path.stem,
                 "vault_relative_path": str(relative_path),
             }
@@ -352,15 +355,16 @@ def build_vault_note_index(config: dict[str, Any]) -> dict[str, Any]:
 
 
 def resolve_reference_links(candidates: list[dict[str, Any]], config: dict[str, Any]) -> list[dict[str, Any]]:
-    """Attach exact Obsidian wikilink matches to extracted reference candidates."""
-    index = build_vault_note_index(config)
+    """Attach exact local-note wikilink matches to extracted reference candidates."""
+    index = build_note_index(config)
     if index.get("status") != "ok":
         return [
             {
                 **candidate,
                 "wikilink": "",
+                "note_target": "",
                 "vault_target": "",
-                "match_status": "vault_unavailable",
+                "match_status": "notes_root_unavailable",
                 "match_reason": "none",
             }
             for candidate in candidates
@@ -377,10 +381,11 @@ def resolve_reference_links(candidates: list[dict[str, Any]], config: dict[str, 
         display_text = normalize_whitespace(str(candidate.get("display_text", ""))) or raw_text
         candidate_text = normalize_whitespace(f"{raw_text} {display_text}")
         resolved = dict(candidate)
-        resolved.setdefault("match_status", "no_vault_match")
+        resolved.setdefault("match_status", "no_local_note_match")
         resolved.setdefault("match_reason", "none")
         resolved.setdefault("wikilink", "")
-        resolved.setdefault("vault_target", "")
+        resolved.setdefault("note_target", normalize_whitespace(str(resolved.get("vault_target", ""))))
+        resolved.setdefault("vault_target", normalize_whitespace(str(resolved.get("note_target", ""))))
 
         priority_matches: list[tuple[str, list[dict[str, Any]]]] = []
         doi = _candidate_doi(candidate, candidate_text)
@@ -418,24 +423,27 @@ def resolve_reference_links(candidates: list[dict[str, Any]], config: dict[str, 
             if not matches:
                 continue
             if len(matches) == 1:
-                target = normalize_whitespace(str(matches[0].get("vault_target", "")))
+                target = normalize_whitespace(str(matches[0].get("note_target", "") or matches[0].get("vault_target", "")))
                 resolved["wikilink"] = _note_wikilink(target, display_text)
+                resolved["note_target"] = target
                 resolved["vault_target"] = target
-                resolved["match_status"] = "vault_match"
+                resolved["match_status"] = "note_match"
                 resolved["match_reason"] = reason
             else:
                 resolved["wikilink"] = ""
+                resolved["note_target"] = ""
                 resolved["vault_target"] = ""
                 resolved["match_status"] = "ambiguous_match"
                 resolved["match_reason"] = reason
                 resolved["match_candidates"] = [
                     {
                         "wikilink": _note_wikilink(
-                            normalize_whitespace(str(note.get("vault_target", ""))),
+                            normalize_whitespace(str(note.get("note_target", "") or note.get("vault_target", ""))),
                             display_text,
                         ),
-                        "vault_target": normalize_whitespace(str(note.get("vault_target", ""))),
-                        "match_status": "vault_match",
+                        "note_target": normalize_whitespace(str(note.get("note_target", "") or note.get("vault_target", ""))),
+                        "vault_target": normalize_whitespace(str(note.get("note_target", "") or note.get("vault_target", ""))),
+                        "match_status": "note_match",
                         "match_reason": reason,
                     }
                     for note in matches
@@ -444,3 +452,7 @@ def resolve_reference_links(candidates: list[dict[str, Any]], config: dict[str, 
 
         matched.append(resolved)
     return matched
+
+
+def build_vault_note_index(config: dict[str, Any]) -> dict[str, Any]:
+    return build_note_index(config)

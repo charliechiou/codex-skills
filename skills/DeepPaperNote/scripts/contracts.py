@@ -386,7 +386,8 @@ class ReferenceCandidate(TypedDict, total=False):
     doi: str
     arxiv_id: str
     wikilink: str
-    vault_target: str
+    note_target: str
+    vault_target: str  # deprecated compatibility alias for note_target
     match_status: str
     match_reason: str
 

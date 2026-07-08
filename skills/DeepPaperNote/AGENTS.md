@@ -7,7 +7,7 @@ DeepPaperNote is:
 - a single-skill repository
 - designed for deep reading of one paper at a time
 - intended to support both Claude Code and Codex
-- focused on producing a high-quality Obsidian-oriented paper note
+- focused on producing a high-quality local Markdown paper note with reproducible image assets
 
 DeepPaperNote is not:
 
@@ -35,7 +35,7 @@ Future changes should preserve these product invariants:
 - weak evidence should fail closed rather than being presented as a full deep read
 - figure and table placeholder-first handling remains required
 - lint plus final readability review remain required before completion
-- Obsidian-first save semantics remain intact
+- the default local-workspace save semantics remain intact
 - the paper-local `images/` directory remains part of the save protocol
 - scripts remain deterministic support tools, while paper understanding and final note writing remain model-led
 

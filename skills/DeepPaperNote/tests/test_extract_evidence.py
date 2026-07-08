@@ -137,8 +137,8 @@ def test_extract_evidence_outputs_pdf_coverage_for_truncated_pdf(tmp_path: Path)
             "doi": "",
             "arxiv_id": "",
             "wikilink": "",
-            "vault_target": "",
-            "match_status": "no_vault_match",
+            "note_target": "",
+            "match_status": "no_local_note_match",
             "match_reason": "none",
         }
     ]

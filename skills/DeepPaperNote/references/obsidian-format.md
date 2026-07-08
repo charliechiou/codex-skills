@@ -1,4 +1,4 @@
-# Obsidian Format
+# Markdown Output Format
 
 ## Heading Rules
 
@@ -13,19 +13,16 @@
 
 Default file name:
 - sanitized English title with underscores
-- default note layout is folder-per-paper:
-  - `<領域>/<paper_slug>/<paper_slug>.md`
-  - `<領域>/<paper_slug>/images/...`
-- when deciding `<領域>`, prefer matching an existing first-level domain folder under the user's papers directory
-- domain routing uses the editable taxonomy in `references/domain_rules.yaml`: application domains are checked before fallback method domains
-- reuse existing first-level folders conservatively; method-only evidence should not force reuse of an unrelated application folder
-- only create a new domain folder when no existing domain is a reasonable fit
-- do not save new papers directly into the bare papers root
-- always create the paper-local `images/` directory during final save, even if no real image is inserted
-- the paper-local `images/` directory is part of the required note layout, not an optional optimization
-- if the target is an Obsidian vault but the current environment cannot create that directory yet, request permission escalation rather than omitting it
+- default local-workspace note layout is flat by top-level artifact type:
+  - `raw/<paper_slug>.md`
+  - `raw/<paper_slug>.plan.json`
+  - `img/<paper_slug>/...`
+- keep note files directly under `raw/`; do not create an extra paper-local note folder unless the user explicitly asks for that layout
+- store extracted or materialized figure images under `img/<paper_slug>/`
+- when deciding analytical domain tags or section emphasis, domain routing may still use the editable taxonomy in `references/domain_rules.yaml`, but domain choice should not force a nested output directory in the default workflow
+- if the target output directory cannot be created, stop and report the write failure rather than omitting it
 
-If the user already has a vault convention, preserve it.
+If the user already has a repository output convention, preserve it.
 
 ## Markdown Style
 
@@ -57,7 +54,7 @@ Formatting and scope rules:
 
 ## YAML Frontmatter
 
-Every note must start with an Obsidian properties block **above** the `#` title heading.
+Every note must start with a YAML properties block **above** the `#` title heading.
 
 Required fields:
 - `tags`: use `papers/<domain>` hierarchy, e.g. `papers/NLP`, `papers/CV`, `papers/multimodal`
@@ -108,12 +105,12 @@ Formatting rules:
 The structured `[FIGURE_PLACEHOLDER] ... [/FIGURE_PLACEHOLDER]` block is legacy/internal only.
 Do not use it in the final user-facing note unless you are debugging the pipeline.
 
-If a real image has been selected and materialized into the vault, do not keep the `[!figure]` callout for that same figure.
-Prefer an Obsidian embed, or use a Markdown image embed when that is the available path.
+If a real image has been selected and materialized into the local image directory, do not keep the `[!figure]` callout for that same figure.
+Use a Markdown image embed with a stable relative path.
 The embed must be followed immediately by exactly one italic caption line:
 
 ```md
-![[Research/Papers/DeepPaperNote/paper_slug/images/page_003_img_01.png]]
+![Fig. 2 資料產生流程圖](../img/paper_slug/page_003_img_01.png)
 *論文原圖編號：Fig. 2。資料產生流程圖。這裡插入是因為它最能幫助理解方法主線。*
 ```
 
@@ -144,11 +141,11 @@ When the paper is complex, add `###` subsections such as:
 
 ## 引用 Section Format
 
-Entries in `## 引用` should link to existing notes in the vault where possible.
+Entries in `## 引用` should be plain-text citations unless the user explicitly maintains a local note-linking convention.
 If the synthesis bundle includes `references.candidates`, use confirmed candidate `wikilink` values when present. When `wikilink` is empty, treat `display_text` as the plain-text fallback.
 Follow this priority order for each reference:
 
-1. **Vault lookup first**: check whether the cited paper already has a note in the vault.
+1. **Plain-text citation first**: record a stable citation entry even when no local note-link exists.
    - Match by note basename (the `<paper_slug>` part of the folder name).
    - Match by the `aliases` field in the note's YAML frontmatter.
 2. **If a match is found**: write a wikilink that separates the target from the display text:
@@ -162,7 +159,7 @@ Follow this priority order for each reference:
    Use the candidate `display_text` as the plain fallback when available.
 
 Rules:
-- Never use a raw English paper title as the wikilink target; it will not match vault filenames.
+- Do not depend on vault-specific wikilink targets in the default local-PDF workflow. Prefer plain-text citations or confirmed local links that still make sense after the note is moved inside an ordinary workspace.
 - To derive a likely slug from a title: lowercase the title and replace spaces and special characters with underscores — but only use the result as the target if you have confirmed the file exists.
 - List only papers cited or directly relevant to this note.
 - Do not add extra DOIs or author metadata when using wikilink format; the display text is enough.

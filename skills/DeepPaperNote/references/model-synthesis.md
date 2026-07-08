@@ -66,9 +66,9 @@ For normal runs, `SKILL.md` plus the generated `synthesis_bundle.json` is the re
    If either final review edits the note, rerun lint.
 
 10. Save only after lint passes and both final reviews are complete.
-   If an Obsidian vault is configured, it is the required target.
+   The required target is the local workspace output layout: `raw/<note>.md`, `raw/<note>.plan.json`, and `img/<note>/...`.
    The save step should create the paper-local `images/` directory even when no real image was inserted.
-   When `figure_table_decisions.json` contains `insert` rows, pass it to `write_obsidian_note.py --figure-decisions ...`; the writer copies those selected images and refuses the save if the note does not reference them.
+   When `figure_table_decisions.json` contains `insert` rows, pass it to `write_note_output.py --figure-decisions ...`; the writer copies those selected images and refuses the save if the note does not reference them.
 
 ## Required Planning Shape
 
@@ -95,7 +95,7 @@ The plan should state which sections need depth, which claims are supported by w
 Use completion language precisely:
 - say `已產生草稿` when drafting is done but lint, readability review, or save is still pending
 - say `已透過校驗` only when lint actually ran and passed
-- say `已儲存到 Obsidian` only when the formal write step actually succeeded
+- say `筆記已完成` only when the formal local write step actually succeeded and linked images exist
 - say `筆記已完成` only when the required workflow is actually complete
 
 Do not treat temporary Markdown files, partial figure work, or incomplete downstream stages as equivalent to a finished DeepPaperNote run.

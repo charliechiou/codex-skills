@@ -109,4 +109,4 @@ def test_run_pipeline_does_not_materialize_before_final_save(
 
     run_pipeline.main()
 
-    assert not any("materialize_figure_asset.py" in cmd[1] for cmd in calls)
+    assert not any("materialize_note_figure.py" in cmd[1] for cmd in calls)

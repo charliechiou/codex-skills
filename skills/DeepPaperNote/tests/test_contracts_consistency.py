@@ -321,14 +321,14 @@ def test_normal_execution_docs_do_not_force_broad_reference_reads() -> None:
     assert "not a second router" in model_synthesis_text
 
 
-def test_normal_execution_docs_require_obsidian_yaml_frontmatter() -> None:
+def test_normal_execution_docs_require_yaml_frontmatter() -> None:
     skill_text = (PROJECT_ROOT / "SKILL.md").read_text(encoding="utf-8")
     final_writing_text = (PROJECT_ROOT / "references" / "final-writing.md").read_text(
         encoding="utf-8"
     )
 
     for text in (skill_text, final_writing_text):
-        assert "Obsidian YAML" in text
+        assert "YAML" in text
         assert "above the `#` title heading" in text
         assert "`tags`" in text
         assert "`aliases`" in text

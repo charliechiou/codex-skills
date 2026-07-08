@@ -75,14 +75,14 @@ def test_extract_reference_candidates_from_pdf_parses_references_section(
             "display_text": "Vaswani et al. (2017). Attention Is All You Need.",
             "page_hint": "p. 2",
             "wikilink": "",
-            "match_status": "no_vault_match",
+            "match_status": "no_local_note_match",
             "match_reason": "none",
         },
         {
             "display_text": "Devlin et al. (2019). BERT: Pre-training of Deep Bidirectional Transformers.",
             "page_hint": "p. 2",
             "wikilink": "",
-            "match_status": "no_vault_match",
+            "match_status": "no_local_note_match",
             "match_reason": "none",
         },
     ]
@@ -111,8 +111,8 @@ def test_resolve_reference_links_matches_vault_stem_title_and_alias(tmp_path: Pa
         "[[bert_pretraining|Devlin et al. (2019). BERT Pretraining.]]",
         "[[attention_transformer|Vaswani et al. (2017). Attention Is All You Need.]]",
     ]
-    assert [item["vault_target"] for item in resolved] == ["bert_pretraining", "attention_transformer"]
-    assert [item["match_status"] for item in resolved] == ["vault_match", "vault_match"]
+    assert [item["note_target"] for item in resolved] == ["bert_pretraining", "attention_transformer"]
+    assert [item["match_status"] for item in resolved] == ["note_match", "note_match"]
     assert [item["match_reason"] for item in resolved] == [
         "basename_or_title_or_alias",
         "basename_or_title_or_alias",
@@ -131,10 +131,10 @@ def test_resolve_reference_links_indexes_only_yaml_frontmatter_notes(tmp_path: P
 
     resolved = resolve_reference_links(candidates, {"obsidian_vault": str(vault)})
 
-    assert resolved[0]["match_status"] == "no_vault_match"
+    assert resolved[0]["match_status"] == "no_local_note_match"
     assert resolved[0]["match_reason"] == "none"
     assert resolved[0]["wikilink"] == ""
-    assert resolved[0]["vault_target"] == ""
+    assert resolved[0]["note_target"] == ""
 
 
 def test_resolve_reference_links_prioritizes_doi_over_text(tmp_path: Path) -> None:
@@ -158,9 +158,9 @@ def test_resolve_reference_links_prioritizes_doi_over_text(tmp_path: Path) -> No
 
     resolved = resolve_reference_links(candidates, {"obsidian_vault": str(vault)})
 
-    assert resolved[0]["match_status"] == "vault_match"
+    assert resolved[0]["match_status"] == "note_match"
     assert resolved[0]["match_reason"] == "doi"
-    assert resolved[0]["vault_target"] == "doi_target"
+    assert resolved[0]["note_target"] == "doi_target"
     assert resolved[0]["wikilink"] == "[[doi_target|Confusing Text Match. doi:10.5555/example.doi]]"
 
 
@@ -176,9 +176,9 @@ def test_resolve_reference_links_matches_arxiv_from_note_doi(tmp_path: Path) -> 
 
     resolved = resolve_reference_links(candidates, {"obsidian_vault": str(vault)})
 
-    assert resolved[0]["match_status"] == "vault_match"
+    assert resolved[0]["match_status"] == "note_match"
     assert resolved[0]["match_reason"] == "arxiv_id"
-    assert resolved[0]["vault_target"] == "arxiv_doi_note"
+    assert resolved[0]["note_target"] == "arxiv_doi_note"
 
 
 def test_resolve_reference_links_reports_ambiguous_text_match(tmp_path: Path) -> None:
@@ -200,8 +200,8 @@ def test_resolve_reference_links_reports_ambiguous_text_match(tmp_path: Path) ->
     assert resolved[0]["match_status"] == "ambiguous_match"
     assert resolved[0]["match_reason"] == "basename_or_title_or_alias"
     assert resolved[0]["wikilink"] == ""
-    assert resolved[0]["vault_target"] == ""
-    assert [item["vault_target"] for item in resolved[0]["match_candidates"]] == [
+    assert resolved[0]["note_target"] == ""
+    assert [item["note_target"] for item in resolved[0]["match_candidates"]] == [
         "first_transformer",
         "second_transformer",
     ]
@@ -226,8 +226,8 @@ def test_resolve_reference_links_reports_ambiguous_doi_match(tmp_path: Path) -> 
     assert resolved[0]["match_status"] == "ambiguous_match"
     assert resolved[0]["match_reason"] == "doi"
     assert resolved[0]["wikilink"] == ""
-    assert resolved[0]["vault_target"] == ""
-    assert [item["vault_target"] for item in resolved[0]["match_candidates"]] == [
+    assert resolved[0]["note_target"] == ""
+    assert [item["note_target"] for item in resolved[0]["match_candidates"]] == [
         "first_doi_note",
         "second_doi_note",
     ]
@@ -249,21 +249,21 @@ def test_resolve_reference_links_ignores_short_acronym_aliases(tmp_path: Path) -
 
     resolved = resolve_reference_links(candidates, {"obsidian_vault": str(vault)})
 
-    assert [item["match_status"] for item in resolved] == ["no_vault_match"] * 3
+    assert [item["match_status"] for item in resolved] == ["no_local_note_match"] * 3
     assert [item["wikilink"] for item in resolved] == [""] * 3
 
 
-def test_resolve_reference_links_uses_plain_text_when_no_vault_match(tmp_path: Path) -> None:
+def test_resolve_reference_links_uses_plain_text_when_no_local_note_match(tmp_path: Path) -> None:
     vault = tmp_path / "vault"
     (vault / "Research" / "Papers").mkdir(parents=True)
     candidates = [{"display_text": "Unknown Future Paper.", "source": "pdf_references"}]
 
     resolved = resolve_reference_links(candidates, {"obsidian_vault": str(vault)})
 
-    assert resolved[0]["match_status"] == "no_vault_match"
+    assert resolved[0]["match_status"] == "no_local_note_match"
     assert resolved[0]["match_reason"] == "none"
     assert resolved[0]["wikilink"] == ""
-    assert resolved[0]["vault_target"] == ""
+    assert resolved[0]["note_target"] == ""
 
 
 def test_resolve_reference_links_reports_no_vault_without_guessing_wikilinks() -> None:
@@ -271,10 +271,10 @@ def test_resolve_reference_links_reports_no_vault_without_guessing_wikilinks() -
 
     resolved = resolve_reference_links(candidates, {"obsidian_vault": ""})
 
-    assert resolved[0]["match_status"] == "vault_unavailable"
+    assert resolved[0]["match_status"] == "notes_root_unavailable"
     assert resolved[0]["match_reason"] == "none"
     assert resolved[0]["wikilink"] == ""
-    assert resolved[0]["vault_target"] == ""
+    assert resolved[0]["note_target"] == ""
 
 
 def test_bundle_exposes_reference_candidates_under_references(monkeypatch) -> None:
@@ -303,5 +303,5 @@ def test_bundle_exposes_reference_candidates_under_references(monkeypatch) -> No
     candidates = synthesis["references"]["candidates"]
     assert len(candidates) == 1
     assert candidates[0]["display_text"] == "Vaswani et al. (2017). Attention Is All You Need."
-    assert candidates[0]["match_status"] == "vault_unavailable"
+    assert candidates[0]["match_status"] == "notes_root_unavailable"
     assert candidates[0]["wikilink"] == ""

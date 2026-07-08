@@ -62,7 +62,7 @@ If you only have the abstract after the supported PDF acquisition paths have fai
 5. Write the final note in Traditional Chinese with Taiwan wording.
 6. Lint it.
 7. Run the final readability review.
-8. Save into the Obsidian vault only after the note passes lint and the final readability review.
+8. Save into the local workspace only after the note passes lint and the final readability review.
 
 ## Writing Rules
 

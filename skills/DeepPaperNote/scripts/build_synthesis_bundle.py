@@ -48,8 +48,9 @@ def sanitize_reference_candidates(evidence_pack: dict, *, limit: int = 20) -> li
             {
                 **candidate,
                 "wikilink": "",
+                "note_target": "",
                 "vault_target": "",
-                "match_status": "vault_unavailable",
+                "match_status": "notes_root_unavailable",
                 "match_reason": "none",
             }
             for candidate in candidates[:limit]
@@ -72,9 +73,10 @@ def sanitize_reference_candidates(evidence_pack: dict, *, limit: int = 20) -> li
                 "doi": normalize_whitespace(str(item.get("doi", ""))),
                 "arxiv_id": normalize_whitespace(str(item.get("arxiv_id", ""))),
                 "wikilink": normalize_whitespace(str(item.get("wikilink", ""))),
-                "vault_target": normalize_whitespace(str(item.get("vault_target", ""))),
+                "note_target": normalize_whitespace(str(item.get("note_target", item.get("vault_target", "")))),
+                "vault_target": normalize_whitespace(str(item.get("note_target", item.get("vault_target", "")))),
                 "match_status": normalize_whitespace(
-                    str(item.get("match_status", "no_vault_match"))
+                    str(item.get("match_status", "no_local_note_match"))
                 ),
                 "match_reason": normalize_whitespace(str(item.get("match_reason", "none"))),
             }

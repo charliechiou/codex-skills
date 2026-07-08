@@ -187,7 +187,7 @@ def test_dqn_style_callout_plus_embed_fails_figure_structure_gate() -> None:
 > 建議位置：方法主線
 > 放置原因：幫助理解強化學習互動閉環。
 > 當前狀態：已複製到 images/figure_1.png，並插入為真實圖片。
-![[Research/Papers/DQN/images/figure_1.png]]
+![Figure 1](../img/DQN/figure_1.png)
 *論文原圖編號：Fig. 1。Agent-environment loop。*
 """
     issues = figure_structure_issues(note)
@@ -281,7 +281,7 @@ def test_flashattention_style_embed_with_italic_caption_passes() -> None:
 
 ## 方法主線
 
-![[Research/Papers/FlashAttention/images/page_005_fig_figure_2.png]]
+![Fig. 2 Architecture](../img/FlashAttention/page_005_fig_figure_2.png)
 *論文原圖編號：Fig. 2。FlashAttention 的分塊計算流程圖。這裡插入是因為它最能幫助理解方法主線。*
 """
     assert figure_structure_issues(note) == []
@@ -350,7 +350,7 @@ def test_usable_candidate_materialization_blocked_reason_passes() -> None:
 > [!figure] Fig. 4 工具鏈圖
 > 建議位置：方法主線
 > 放置原因：幫助理解工具鏈。
-> 當前狀態：候選可用但 materialize_figure_asset.py 複製失敗/許可權不足。
+> 當前狀態：候選可用但 materialize_note_figure.py 複製失敗/許可權不足。
 """
     assert figure_structure_issues(note) == []
     assert figure_structure_passes(note) is True
@@ -364,7 +364,7 @@ def test_missing_asset_must_not_be_reported_as_materialization_blocked() -> None
 > [!figure] Fig. 4 系統圖
 > 建議位置：方法主線
 > 放置原因：幫助理解整體執行鏈。
-> 當前狀態：保留佔位：對應影像資產缺失導致 materialize_figure_asset.py 複製 blocked；保留結構佔位用於回查原圖。
+> 當前狀態：保留佔位：對應影像資產缺失導致 materialize_note_figure.py 複製 blocked；保留結構佔位用於回查原圖。
 """
     issues = figure_structure_issues(note)
     assert any(
@@ -1043,7 +1043,7 @@ def test_note_plan_explicit_not_reported_entries_pass_plan_gate(tmp_path) -> Non
     assert payload["passes_plan_gate"] is True
 
 
-def test_write_obsidian_note_refuses_failed_plan_gate(tmp_path) -> None:
+def test_write_note_output_refuses_failed_plan_gate(tmp_path) -> None:
     lint_path = tmp_path / "lint.json"
     lint_path.write_text(
         json.dumps(
@@ -1058,7 +1058,7 @@ def test_write_obsidian_note_refuses_failed_plan_gate(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_obsidian_note.py"
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_note_output.py"
     result = subprocess.run(
         [
             sys.executable,
@@ -1115,7 +1115,7 @@ def test_real_image_embed_counts_as_figure_marker_in_full_lint(tmp_path) -> None
 
 這裡說明方法過程。
 
-![[Research/Papers/Paper/images/page_001_fig_figure_1.png]]
+![Fig. 1](../img/Paper/page_001_fig_figure_1.png)
 *論文原圖編號：Fig. 1。方法流程圖。*
 
 ## 關鍵結果
@@ -1159,7 +1159,7 @@ def test_real_image_embed_counts_as_figure_marker_in_full_lint(tmp_path) -> None
     )
 
 
-def test_write_obsidian_note_refuses_failed_substantive_gate(tmp_path) -> None:
+def test_write_note_output_refuses_failed_substantive_gate(tmp_path) -> None:
     lint_path = tmp_path / "lint.json"
     lint_path.write_text(
         json.dumps(
@@ -1175,7 +1175,7 @@ def test_write_obsidian_note_refuses_failed_substantive_gate(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_obsidian_note.py"
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_note_output.py"
     result = subprocess.run(
         [
             sys.executable,
@@ -1208,7 +1208,7 @@ def passing_lint_payload() -> dict:
     }
 
 
-def test_write_obsidian_note_materializes_insert_decision(tmp_path) -> None:
+def test_write_note_output_materializes_insert_decision(tmp_path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     source_image = tmp_path / "page_001_fig_figure_1.png"
@@ -1232,7 +1232,7 @@ def test_write_obsidian_note_materializes_insert_decision(tmp_path) -> None:
         encoding="utf-8",
     )
     output_path = tmp_path / "write.json"
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_obsidian_note.py"
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_note_output.py"
 
     result = subprocess.run(
         [
@@ -1267,7 +1267,7 @@ def test_write_obsidian_note_materializes_insert_decision(tmp_path) -> None:
     assert Path(materialized["dest_image_path"]).read_bytes() == b"fake-png"
 
 
-def test_write_obsidian_note_rejects_unreferenced_insert_decision(tmp_path) -> None:
+def test_write_note_output_rejects_unreferenced_insert_decision(tmp_path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     source_image = tmp_path / "page_001_fig_figure_1.png"
@@ -1290,7 +1290,7 @@ def test_write_obsidian_note_rejects_unreferenced_insert_decision(tmp_path) -> N
         ),
         encoding="utf-8",
     )
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_obsidian_note.py"
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_note_output.py"
 
     result = subprocess.run(
         [
@@ -1315,7 +1315,7 @@ def test_write_obsidian_note_rejects_unreferenced_insert_decision(tmp_path) -> N
     assert "is not referenced as an image embed" in result.stderr
 
 
-def test_write_obsidian_note_rejects_plain_path_for_insert_decision(tmp_path) -> None:
+def test_write_note_output_rejects_plain_path_for_insert_decision(tmp_path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     source_image = tmp_path / "page_001_fig_figure_1.png"
@@ -1338,7 +1338,7 @@ def test_write_obsidian_note_rejects_plain_path_for_insert_decision(tmp_path) ->
         ),
         encoding="utf-8",
     )
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_obsidian_note.py"
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_note_output.py"
 
     result = subprocess.run(
         [
@@ -1363,7 +1363,7 @@ def test_write_obsidian_note_rejects_plain_path_for_insert_decision(tmp_path) ->
     assert "is not referenced as an image embed" in result.stderr
 
 
-def test_write_obsidian_note_rejects_unsafe_insert_filename(tmp_path) -> None:
+def test_write_note_output_rejects_unsafe_insert_filename(tmp_path) -> None:
     vault = tmp_path / "vault"
     vault.mkdir()
     source_image = tmp_path / "page_001_fig_figure_1.png"
@@ -1386,7 +1386,7 @@ def test_write_obsidian_note_rejects_unsafe_insert_filename(tmp_path) -> None:
         ),
         encoding="utf-8",
     )
-    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_obsidian_note.py"
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "write_note_output.py"
 
     result = subprocess.run(
         [

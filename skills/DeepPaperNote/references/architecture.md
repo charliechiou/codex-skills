@@ -35,7 +35,7 @@ A platform adapter can include:
 - trigger phrasing
 - tool-selection instructions for the host environment
 - interaction-style notes
-- host-specific Obsidian or local-library calling conventions
+- host-specific save conventions or local-file calling conventions
 
 This layer should stay thin.
 Do not bury core business logic only inside prompt text or distribution metadata.

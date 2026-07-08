@@ -931,8 +931,11 @@ def enrich_metadata(record: dict[str, Any]) -> dict[str, Any]:
 
 
 def runtime_config() -> dict[str, Any]:
+    notes_root = env_config_value("DEEPPAPERNOTE_NOTES_ROOT")
+    obsidian_vault = env_config_value("DEEPPAPERNOTE_OBSIDIAN_VAULT")
     return {
-        "obsidian_vault": env_config_value("DEEPPAPERNOTE_OBSIDIAN_VAULT"),
+        "notes_root": notes_root,
+        "obsidian_vault": obsidian_vault,
         "papers_dir": env_config_value("DEEPPAPERNOTE_PAPERS_DIR", default="Research/Papers"),
         "output_dir": env_config_value("DEEPPAPERNOTE_OUTPUT_DIR", default="tmp/DeepPaperNote"),
         "workspace_output_dir": env_config_value(
@@ -942,27 +945,37 @@ def runtime_config() -> dict[str, Any]:
     }
 
 
-def configured_obsidian_vault(config: dict[str, Any]) -> Path | None:
-    vault = str(config.get("obsidian_vault", "")).strip()
-    if not vault:
+def configured_notes_root(config: dict[str, Any]) -> Path | None:
+    root = str(config.get("notes_root") or config.get("obsidian_vault") or "").strip()
+    if not root:
         return None
-    vault_path = Path(vault).expanduser().resolve()
-    if not vault_path.exists() or not vault_path.is_dir():
-        raise RuntimeError(f"Configured Obsidian vault does not exist: {vault_path}")
-    return vault_path
+    root_path = Path(root).expanduser().resolve()
+    if not root_path.exists() or not root_path.is_dir():
+        raise RuntimeError(f"Configured notes root does not exist: {root_path}")
+    return root_path
+
+
+def configured_obsidian_vault(config: dict[str, Any]) -> Path | None:
+    return configured_notes_root(config)
+
+
+def require_notes_root(config: dict[str, Any]) -> Path:
+    root_path = configured_notes_root(config)
+    if root_path is None:
+        raise RuntimeError(
+            "Missing notes root configuration. Set DEEPPAPERNOTE_NOTES_ROOT or DEEPPAPERNOTE_OBSIDIAN_VAULT."
+        )
+    return root_path
 
 
 def require_obsidian_vault(config: dict[str, Any]) -> Path:
-    vault_path = configured_obsidian_vault(config)
-    if vault_path is None:
-        raise RuntimeError("Missing Obsidian vault configuration. Set DEEPPAPERNOTE_OBSIDIAN_VAULT.")
-    return vault_path
+    return require_notes_root(config)
 
 
 def resolve_note_output_mode(config: dict[str, Any]) -> tuple[str, Path]:
-    vault_path = configured_obsidian_vault(config)
-    if vault_path is not None:
-        return ("obsidian", vault_path)
+    root_path = configured_notes_root(config)
+    if root_path is not None:
+        return ("configured_root", root_path)
     workspace_root = Path.cwd().resolve()
     output_dir = str(config.get("workspace_output_dir", "DeepPaperNote_output")).strip() or "DeepPaperNote_output"
     return ("workspace", workspace_root / output_dir)
@@ -1471,7 +1484,7 @@ def is_probable_paper_folder(path: Path) -> bool:
 def existing_domain_dirs(config: dict[str, Any]) -> list[str]:
     output_mode, root_path = resolve_note_output_mode(config)
     papers_dir = str(config.get("papers_dir", "Research/Papers")).strip() or "Research/Papers"
-    base_dir = root_path / Path(papers_dir) if output_mode == "obsidian" else root_path
+    base_dir = root_path / Path(papers_dir) if output_mode == "configured_root" else root_path
     if not base_dir.exists() or not base_dir.is_dir():
         return []
     names: list[str] = []
@@ -1535,7 +1548,7 @@ def resolve_domain_subdir(
     return label
 
 
-def resolve_obsidian_note_path(
+def resolve_note_output_path(
     config: dict[str, Any],
     *,
     title: str,
@@ -1544,10 +1557,10 @@ def resolve_obsidian_note_path(
 ) -> Path:
     output_mode, root_path = resolve_note_output_mode(config)
     papers_dir = str(config.get("papers_dir", "Research/Papers")).strip() or "Research/Papers"
-    relative_dir = Path(papers_dir) if output_mode == "obsidian" else Path()
+    relative_dir = Path(papers_dir) if output_mode == "configured_root" else Path()
     if subdir:
         subdir_path = Path(subdir)
-        if output_mode == "obsidian" and str(subdir_path).startswith(papers_dir):
+        if output_mode == "configured_root" and str(subdir_path).startswith(papers_dir):
             relative_dir = subdir_path
         else:
             relative_dir = relative_dir / subdir_path
@@ -1559,6 +1572,21 @@ def resolve_obsidian_note_path(
     if relative_dir.name.lower() in normalized_folder_aliases:
         return root_path / relative_dir / target_name
     return root_path / relative_dir / folder_name / target_name
+
+
+def resolve_obsidian_note_path(
+    config: dict[str, Any],
+    *,
+    title: str,
+    subdir: str = "",
+    filename: str = "",
+) -> Path:
+    return resolve_note_output_path(
+        config,
+        title=title,
+        subdir=subdir,
+        filename=filename,
+    )
 
 
 def default_pdf_path(record: dict[str, Any], dest_dir: str | None = None) -> Path:

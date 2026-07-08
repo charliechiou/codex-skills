@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-WRITE_SCRIPT = PROJECT_ROOT / "scripts" / "write_obsidian_note.py"
+WRITE_SCRIPT = PROJECT_ROOT / "scripts" / "write_note_output.py"
 ENV_SCRIPT = PROJECT_ROOT / "scripts" / "check_environment.py"
 
 

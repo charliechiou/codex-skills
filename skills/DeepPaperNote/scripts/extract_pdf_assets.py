@@ -9,7 +9,7 @@ Two extraction strategies run in parallel:
    figures even when the PDF stores them as many small xref fragments or as
    pure vector art.
 
-Downstream consumers (plan_figures.py, materialize_figure_asset.py) should
+Downstream consumers (plan_figures.py, materialize_note_figure.py) should
 prefer figure-level assets when available.
 """
 
